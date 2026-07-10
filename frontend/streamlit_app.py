@@ -1,4 +1,4 @@
-"""Automatic Biryani Maker — Main Application."""
+"""DHUM CHEF👨‍🍳 — Main Application."""
 
 import sys
 from pathlib import Path
@@ -18,12 +18,19 @@ from frontend.components.progress_tracker import (
     run_cooking_simulation,
     format_time,
 )
-from frontend.components.ui_helpers import load_css, render_header, render_step_indicator
+from frontend.components.ui_helpers import (
+    load_css,
+    render_header,
+    render_step_indicator,
+    render_splash_screen,
+    SPLASH_HOLD_SECONDS,
+    SPLASH_FADE_SECONDS,
+)
 from backend.services.cooking_service import get_shared_cooking_service
 
 # ── Page config ──
 st.set_page_config(
-    page_title="Automatic Biryani Maker",
+    page_title="Dumchef",
     page_icon="🍛",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -34,7 +41,9 @@ load_css()
 
 def init_session_state() -> None:
     defaults = {
-        "workflow_step": "dashboard",
+        "workflow_step": "welcome",
+        "splash_done": False,
+        "splash_start_time": None,
         "selected_recipe": None,
         "selected_batch": None,
         "cook_start_time": None,
@@ -155,7 +164,7 @@ def start_recipe(recipe_id: str) -> None:
 def render_dashboard() -> None:
     render_header()
     st.markdown(
-        '<p style="color: #8899aa; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        '<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
         "Select a recipe to begin cooking</p>",
         unsafe_allow_html=True,
     )
@@ -165,7 +174,7 @@ def render_dashboard() -> None:
             "id": "manual_mode",
             "title": "Manual Mode",
             "emoji": "🎮",
-            "icon_color": "#26c6da",
+            "icon_color": "#ff8a00",
             "description": "Direct device control with manual inputs",
         }
     ]
@@ -243,7 +252,7 @@ def render_ingredients_step() -> None:
                 f"""
                 <div class="ingredient-label">
                     <span class="ingredient-name" style="color:#ffffff;">{name}</span>
-                    <span class="ingredient-qty" style="color:#4dd0e1;">{qty}</span>
+                    <span class="ingredient-qty" style="color:#ffb300;">{qty}</span>
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -256,7 +265,7 @@ def render_ingredients_step() -> None:
     total = len(ingredients)
 
     st.markdown(
-        f'<p style="color: #8899aa; font-size: 0.85rem; margin: 1rem 0;">'
+        f'<p style="color: #c4a882; font-size: 0.85rem; margin: 1rem 0;">'
         f"{added_count} of {total} ingredients added</p>",
         unsafe_allow_html=True,
     )
@@ -288,10 +297,10 @@ def render_cooking_step() -> None:
     st.markdown(
         f"""
         <div style="margin-bottom: 1rem;">
-            <span style="color: #ffc107; font-weight: 600; font-size: 1.1rem;">
+            <span style="color: #ff8a00; font-weight: 600; font-size: 1.1rem;">
                 Step 2: Cooking Process
             </span>
-            <span style="color: #8899aa; font-size: 0.9rem;">
+            <span style="color: #c4a882; font-size: 0.9rem;">
                 &nbsp;— {recipe['emoji']} {recipe['title']}
             </span>
         </div>
@@ -308,7 +317,7 @@ def render_cooking_step() -> None:
 def render_manual_step() -> None:
     render_header()
     st.markdown(
-        '<p style="color:#8899aa; margin-bottom: 1rem;">Manual Mode — Control devices using direct inputs</p>',
+        '<p style="color:#c4a882; margin-bottom: 1rem;">Manual Mode — Control devices using direct inputs</p>',
         unsafe_allow_html=True,
     )
 
@@ -481,13 +490,46 @@ def render_completion_step() -> None:
             st.rerun()
 
 
+def render_welcome_step() -> None:
+    """Show Dumchef logo for 3s, fade out, then open dashboard."""
+    if st.session_state.splash_done:
+        st.session_state.workflow_step = "dashboard"
+        st.rerun()
+
+    if st.session_state.splash_start_time is None:
+        st.session_state.splash_start_time = time.time()
+
+    elapsed = time.time() - st.session_state.splash_start_time
+    hold_end = SPLASH_HOLD_SECONDS
+    fade_end = SPLASH_HOLD_SECONDS + SPLASH_FADE_SECONDS
+
+    if elapsed < hold_end:
+        render_splash_screen(fading=False)
+        time.sleep(0.2)
+        st.rerun()
+    elif elapsed < fade_end:
+        render_splash_screen(fading=True)
+        time.sleep(0.2)
+        st.rerun()
+    else:
+        st.session_state.splash_done = True
+        st.session_state.workflow_step = "dashboard"
+        st.rerun()
+
+
 # ── Main router ──
 def main() -> None:
     init_session_state()
 
+    # Always show splash once per browser session
+    if not st.session_state.splash_done:
+        st.session_state.workflow_step = "welcome"
+
     step = st.session_state.workflow_step
 
-    if step == "dashboard":
+    if step == "welcome":
+        render_welcome_step()
+    elif step == "dashboard":
         render_dashboard()
     elif step == "ingredients":
         render_ingredients_step()

@@ -1,26 +1,33 @@
-/* Automatic Biryani Maker — Industrial Dark Theme */
+/* Dumchef — Warm industrial theme matching brand logo */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-    --bg-primary: #0a1628;
-    --bg-secondary: #112240;
-    --bg-card: #1a2f4a;
-    --bg-card-hover: #1f3a5c;
-    --accent-green: #00c853;
-    --accent-green-hover: #00e676;
-    --accent-yellow: #ffc107;
-    --accent-cyan: #00bcd4;
-    --accent-orange: #ff6d00;
-    --text-primary: #e8edf5;
-    --text-secondary: #8899aa;
-    --text-muted: #5a6d80;
-    --border-subtle: rgba(255, 255, 255, 0.08);
-    --border-accent: rgba(255, 193, 7, 0.4);
-    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --bg-primary: #0c0a08;
+    --bg-secondary: #16110d;
+    --bg-card: #1f1712;
+    --bg-card-hover: #2a1f18;
+    --accent-primary: #ff6a00;
+    --accent-primary-hover: #ff8a1a;
+    --accent-gold: #ffb300;
+    --accent-gold-soft: #ffd54f;
+    --accent-deep: #c43e00;
+    --accent-green: #ff6a00;
+    --accent-green-hover: #ff8a1a;
+    --accent-yellow: #ffb300;
+    --accent-cyan: #ff8a00;
+    --accent-orange: #ff6a00;
+    --text-primary: #fff4e8;
+    --text-secondary: #c4a882;
+    --text-muted: #8a6f55;
+    --border-subtle: rgba(255, 140, 40, 0.12);
+    --border-accent: rgba(255, 140, 0, 0.45);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.45);
     --radius-lg: 16px;
     --radius-md: 12px;
     --radius-sm: 8px;
+    --brand-gradient: linear-gradient(180deg, #ff8a00 0%, #ff6a00 45%, #c43e00 100%);
+    --brand-bar: linear-gradient(90deg, #ff6a00, #ffb300);
 }
 
 /* Hide Streamlit chrome for cleaner kiosk feel */
@@ -31,7 +38,7 @@
 }
 
 .stApp {
-    background: linear-gradient(160deg, var(--bg-primary) 0%, #0d1f35 50%, var(--bg-primary) 100%);
+    background: linear-gradient(160deg, #0c0a08 0%, #1a120e 45%, #120e0b 100%);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-primary);
 }
@@ -47,21 +54,66 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem 0 1.5rem;
+    padding: 0.5rem 0 1.25rem;
     border-bottom: 1px solid var(--border-subtle);
     margin-bottom: 2rem;
 }
 
+.brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+}
+
+.brand-mascot {
+    height: 56px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    background: transparent;
+}
+
+.brand-wordmark {
+    height: 52px;
+    width: auto;
+    max-width: min(48vw, 300px);
+    display: block;
+    object-fit: contain;
+    background: transparent !important;
+    mix-blend-mode: normal;
+}
+
 .app-title {
     font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.02em;
+    font-weight: 800;
+    letter-spacing: 0.02em;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
 }
 
 .app-title span {
-    color: var(--accent-yellow);
+    color: inherit;
+}
+
+.brand-name {
+    background: linear-gradient(180deg, #ff8a00 0%, #ffb300 45%, #ffd54f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #ffb300;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.brand-emoji {
+    font-size: 1.35rem;
+    line-height: 1;
+    -webkit-text-fill-color: initial;
+    color: initial;
 }
 
 .app-clock {
@@ -107,14 +159,14 @@
 .step-circle.active {
     border-color: var(--accent-yellow);
     color: var(--accent-yellow);
-    background: rgba(255, 193, 7, 0.12);
-    box-shadow: 0 0 16px rgba(255, 193, 7, 0.25);
+    background: rgba(255, 179, 0, 0.14);
+    box-shadow: 0 0 16px rgba(255, 106, 0, 0.28);
 }
 
 .step-circle.done {
     border-color: var(--accent-green);
     color: var(--accent-green);
-    background: rgba(0, 200, 83, 0.12);
+    background: rgba(255, 106, 0, 0.14);
 }
 
 .step-label {
@@ -261,8 +313,8 @@
 }
 
 .ingredient-list div[data-testid="stHorizontalBlock"]:has(input:checked) {
-    background: rgba(0, 200, 83, 0.14);
-    border-color: rgba(0, 200, 83, 0.45);
+    background: rgba(255, 106, 0, 0.16);
+    border-color: rgba(255, 140, 0, 0.45);
 }
 
 .ingredient-label {
@@ -284,8 +336,8 @@
 .ingredient-qty {
     font-size: 0.95rem !important;
     font-weight: 600 !important;
-    color: #4dd0e1 !important;
-    -webkit-text-fill-color: #4dd0e1 !important;
+    color: #ffb300 !important;
+    -webkit-text-fill-color: #ffb300 !important;
     white-space: nowrap;
     flex-shrink: 0;
 }
@@ -300,7 +352,7 @@
 .ingredient-list div[data-testid="stCheckbox"] input[type="checkbox"] {
     width: 22px !important;
     height: 22px !important;
-    accent-color: #00c853 !important;
+    accent-color: #ff6a00 !important;
     cursor: pointer !important;
 }
 
@@ -372,9 +424,9 @@
 .progress-bar-fill {
     height: 100%;
     border-radius: 7px;
-    background: linear-gradient(90deg, var(--accent-green), var(--accent-yellow));
+    background: var(--brand-bar);
     transition: width 0.4s ease;
-    box-shadow: 0 0 12px rgba(0, 200, 83, 0.4);
+    box-shadow: 0 0 12px rgba(255, 140, 0, 0.4);
 }
 
 .progress-label {
@@ -411,9 +463,9 @@
 }
 
 .stage-chip.done {
-    background: rgba(0, 200, 83, 0.1);
+    background: rgba(255, 179, 0, 0.12);
     color: var(--accent-green);
-    border-color: rgba(0, 200, 83, 0.3);
+    border-color: rgba(255, 140, 0, 0.4);
 }
 
 /* ── Completion Screen ── */
@@ -421,7 +473,7 @@
     text-align: center;
     padding: 2.5rem 2rem;
     background: var(--bg-card);
-    border: 1px solid rgba(0, 200, 83, 0.3);
+    border: 1px solid rgba(255, 140, 0, 0.4);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
 }
@@ -430,7 +482,7 @@
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    background: rgba(0, 200, 83, 0.15);
+    background: rgba(255, 106, 0, 0.16);
     border: 3px solid var(--accent-green);
     display: flex;
     align-items: center;
@@ -468,19 +520,19 @@
 
 /* ── Streamlit widget overrides ── */
 div[data-testid="stButton"] > button[kind="primary"] {
-    background: var(--accent-green) !important;
-    color: white !important;
+    background: linear-gradient(180deg, #ff8a00 0%, #ff6a00 55%, #e85a00 100%) !important;
+    color: #fff8f0 !important;
     border: none !important;
     border-radius: var(--radius-md) !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     padding: 0.6rem 2rem !important;
     transition: all 0.2s ease !important;
-    box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3) !important;
+    box-shadow: 0 4px 16px rgba(255, 106, 0, 0.4) !important;
 }
 
 div[data-testid="stButton"] > button[kind="primary"]:hover {
-    background: var(--accent-green-hover) !important;
-    box-shadow: 0 6px 20px rgba(0, 200, 83, 0.45) !important;
+    background: linear-gradient(180deg, #ff9a1a 0%, #ff7a14 55%, #ff6a00 100%) !important;
+    box-shadow: 0 6px 22px rgba(255, 140, 0, 0.5) !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"] {
@@ -502,13 +554,13 @@ div[data-testid="stCheckbox"] label {
 }
 
 div[data-testid="stCheckbox"] label span {
-    color: #f0f4f8 !important;
+    color: #fff4e8 !important;
     font-size: 1rem !important;
 }
 
 div[data-testid="stCheckbox"] label span[data-testid="stMarkdownContainer"] p {
     font-weight: 500 !important;
-    color: #f0f4f8 !important;
+    color: #fff4e8 !important;
     margin: 0 !important;
 }
 
@@ -531,7 +583,7 @@ div[data-testid="stCheckbox"] label > div {
 }
 
 .stProgress > div > div {
-    background: linear-gradient(90deg, var(--accent-green), var(--accent-yellow)) !important;
+    background: var(--brand-bar) !important;
 }
 
 .manual-header-row {
@@ -557,12 +609,71 @@ div[data-testid="stCheckbox"] label > div {
 }
 
 .manual-state-on {
-    color: #00e676;
-    background: rgba(0, 200, 83, 0.18);
-    border-color: rgba(0, 200, 83, 0.45);
+    color: #ffb300;
+    background: rgba(255, 106, 0, 0.18);
+    border-color: rgba(255, 140, 0, 0.45);
 }
 
 .manual-state-off {
     color: #94a3b8;
     background: rgba(255, 255, 255, 0.06);
+}
+
+/* ── Welcome / Splash Screen ── */
+.splash-screen {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    background: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    overflow: hidden;
+}
+
+.splash-screen.fade-out {
+    animation: splash-fade 1s ease forwards;
+}
+
+.splash-content {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    box-sizing: border-box;
+}
+
+.splash-mascot {
+    width: min(70vw, 420px);
+    height: auto;
+    max-height: 55vh;
+    object-fit: contain;
+    display: block;
+}
+
+.splash-wordmark {
+    width: min(80vw, 520px);
+    height: auto;
+    max-height: 22vh;
+    object-fit: contain;
+    display: block;
+}
+
+@keyframes splash-fade {
+    from { opacity: 1; }
+    to { opacity: 0; visibility: hidden; }
+}
+
+@media (max-width: 768px) {
+    .brand-mascot { height: 44px; }
+    .brand-wordmark { height: 36px; }
+    .app-title { font-size: 1.4rem; }
 }

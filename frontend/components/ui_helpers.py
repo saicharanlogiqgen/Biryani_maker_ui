@@ -1,9 +1,19 @@
 """Shared UI helpers."""
 
+import base64
 from datetime import datetime
+from functools import lru_cache
+from pathlib import Path
 
 import streamlit as st
-from pathlib import Path
+
+SPLASH_HOLD_SECONDS = 3.0
+SPLASH_FADE_SECONDS = 1.0
+
+ASSETS_DIR = Path(__file__).parent.parent / "assets"
+MASCOT_PATH = ASSETS_DIR / "dumchef_mascot.png"
+WORDMARK_PATH = ASSETS_DIR / "dumchef_wordmark.png"
+LEGACY_LOGO_PATH = ASSETS_DIR / "dumchef_logo.png"
 
 
 def load_css() -> None:
@@ -12,12 +22,47 @@ def load_css() -> None:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 
+@lru_cache(maxsize=8)
+def get_asset_data_uri(path_str: str, version: float = 0.0) -> str:
+    path = Path(path_str)
+    with open(path, "rb") as f:
+        encoded = base64.b64encode(f.read()).decode("ascii")
+    return f"data:image/png;base64,{encoded}"
+
+
+def asset_uri(path: Path) -> str:
+    """Load asset with mtime so updated images refresh in-session."""
+    return get_asset_data_uri(str(path), path.stat().st_mtime)
+
+
+def render_splash_screen(*, fading: bool = False) -> None:
+    fade_cls = " fade-out" if fading else ""
+    mascot_uri = asset_uri(MASCOT_PATH)
+    wordmark_uri = asset_uri(WORDMARK_PATH)
+    st.markdown(
+        f"""
+        <div class="splash-screen{fade_cls}">
+            <div class="splash-content">
+                <img class="splash-mascot" src="{mascot_uri}" alt="Dumchef mascot" />
+                <img class="splash-wordmark" src="{wordmark_uri}" alt="Dumchef" />
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def render_header() -> None:
     now = datetime.now().strftime("%a %H:%M:%S")
+    mascot_uri = asset_uri(MASCOT_PATH)
+    wordmark_uri = asset_uri(WORDMARK_PATH)
     st.markdown(
         f"""
         <div class="app-header">
-            <h1 class="app-title">Automatic <span>Biryani Maker</span></h1>
+            <div class="brand-lockup">
+                <img class="brand-mascot" src="{mascot_uri}" alt="Dumchef" />
+                <img class="brand-wordmark" src="{wordmark_uri}" alt="Dumchef" />
+            </div>
             <div class="app-clock">{now}</div>
         </div>
         """,

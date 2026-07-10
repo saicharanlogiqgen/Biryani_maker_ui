@@ -1,11 +1,11 @@
-"""Recipe definitions for the Automatic Biryani Maker."""
+"""Recipe definitions for the DHUM CHEF👨‍🍳."""
 
 RECIPES = {
     "cook_rice": {
         "id": "cook_rice",
         "title": "Cook Rice",
         "emoji": "🍚",
-        "icon_color": "#4fc3f7",
+        "icon_color": "#ffb300",
         "description": "Perfectly steamed basmati rice",
         "machine_enabled": False,
         "total_cook_seconds": 18,
@@ -58,7 +58,7 @@ RECIPES = {
         "id": "chicken_biryani",
         "title": "Chicken Biryani",
         "emoji": "🍗",
-        "icon_color": "#ef5350",
+        "icon_color": "#ff6a00",
         "description": "Classic layered chicken biryani",
         "machine_enabled": True,
         "batch_options": ["5kg", "10kg"],
