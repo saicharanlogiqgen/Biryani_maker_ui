@@ -101,7 +101,7 @@ def run_cooking_with_service(recipe: dict, service) -> None:
     mock_badge = ""
     if status.get("is_mock"):
         mock_badge = (
-            '<span style="color:#8899aa;font-size:0.8rem;">'
+            '<span style="color:#c4a882;font-size:0.8rem;">'
             " · Mock hardware (dev mode)</span>"
         )
 

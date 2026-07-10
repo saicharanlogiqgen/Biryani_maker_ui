@@ -709,3 +709,7 @@
 2026-07-09 18:19:49 | WARNING  | biryani.core.emergency_stop | EMERGENCY STOP — all devices stopped
 2026-07-09 18:19:49 | WARNING  | biryani.services.cooking | Cooking emergency stop
 2026-07-10 09:54:37 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (development mode)
+2026-07-10 14:34:47 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (development mode)
+2026-07-10 16:20:29 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (development mode)
+2026-07-10 16:21:12 | INFO     | biryani.hardware.gpio | GPIO initialized (9 pins)
+2026-07-10 16:21:12 | INFO     | biryani.services.cooking | CookingService initialized (mock=True)
