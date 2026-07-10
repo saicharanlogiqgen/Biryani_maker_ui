@@ -1,0 +1,16 @@
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[ui]
+hideTopBar = true
+
+[theme]
+base = "dark"
+primaryColor = "#00c853"
+backgroundColor = "#0a1628"
+secondaryBackgroundColor = "#1a2f4a"
+textColor = "#f0f4f8"
+font = "sans serif"

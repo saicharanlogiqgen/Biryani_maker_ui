@@ -1,0 +1,711 @@
+2026-03-18 10:56:34 | INFO     | biryani.hardware.sensors.temperature | [MAX6675] Using MOCK SPI
+2026-03-18 10:56:34 | INFO     | biryani.hardware.sensors.temperature | [MAX6675] SPI initialized on bus 0, device 0
+2026-03-18 10:56:34 | INFO     | biryani.services.sensor | Sensor service initialized
+2026-03-18 10:56:47 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (non-Raspberry Pi environment)
+2026-03-18 10:56:47 | INFO     | biryani.hardware.gpio | GPIO initialization complete
+2026-03-18 10:56:47 | INFO     | biryani.hardware.gpio | Configured 11 pins
+2026-03-18 10:56:47 | INFO     | biryani.core.emergency_stop | Emergency Stop Controller initialized
+2026-03-18 10:56:47 | INFO     | biryani.core.emergency_stop | Hardware registered: 3 valves, 2 motors, stepper: True
+2026-03-18 10:56:47 | INFO     | biryani.services.cooking | Cooking service initialized
+2026-03-18 10:56:47 | INFO     | biryani.core.state_machine | Step 1/10: 
+2026-03-18 10:56:47 | INFO     | biryani.core.state_machine | State: IDLE -> INITIALIZING
+2026-03-18 10:56:47 | INFO     | biryani.services.cooking | Biryani Mode started
+2026-03-18 10:56:47 | INFO     | biryani.core.state_machine | Step 1/10: Ensuring UP position
+2026-03-18 10:56:47 | INFO     | biryani.core.state_machine | State: INITIALIZING -> STEP_IN_PROGRESS
+2026-03-18 10:56:47 | INFO     | biryani.services.cooking | [Step 1] Ensuring UP position
+2026-03-18 10:56:47 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 10:56:47 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 10:56:48 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 10:56:48 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 10:56:49 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] UP
+2026-03-18 10:57:04 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 10:57:04 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 10:57:04 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 10:57:05 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 10:57:05 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 10:57:06 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] UP
+2026-03-18 10:57:21 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 10:57:21 | INFO     | biryani.core.state_machine | State: STEP_IN_PROGRESS -> WAITING
+2026-03-18 10:57:21 | INFO     | biryani.core.state_machine | Step 2/10: Initial wait
+2026-03-18 10:57:21 | INFO     | biryani.core.state_machine | State: WAITING -> STEP_IN_PROGRESS
+2026-03-18 10:57:21 | INFO     | biryani.services.cooking | [Step 2] Initial wait
+2026-03-18 10:57:21 | INFO     | biryani.services.cooking | Temperature: 25.00C
+2026-03-18 10:57:48 | CRITICAL | biryani.core.emergency_stop | EMERGENCY STOP TRIGGERED: Dashboard trigger
+2026-03-18 10:57:48 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 10:57:49 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 10:57:49 | INFO     | biryani.hardware.valve | [Valve3-Filter] OFF
+2026-03-18 10:57:49 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 10:57:49 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 10:57:51 | INFO     | biryani.core.state_machine | State: STEP_IN_PROGRESS -> WAITING
+2026-03-18 10:57:51 | INFO     | biryani.core.state_machine | Step 3/10: Lowering Rice Bowl
+2026-03-18 10:57:51 | INFO     | biryani.core.state_machine | State: WAITING -> STEP_IN_PROGRESS
+2026-03-18 10:57:51 | INFO     | biryani.services.cooking | [Step 3] Lowering Rice Bowl
+2026-03-18 10:57:51 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 10:57:51 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 10:57:52 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 10:57:52 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 10:57:53 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] DOWN
+2026-03-18 10:58:13 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 10:58:13 | INFO     | biryani.core.state_machine | State: STEP_IN_PROGRESS -> WAITING
+2026-03-18 10:58:13 | INFO     | biryani.core.state_machine | Step 4/10: Lowering Mixer Valve
+2026-03-18 10:58:13 | INFO     | biryani.core.state_machine | State: WAITING -> STEP_IN_PROGRESS
+2026-03-18 10:58:13 | INFO     | biryani.services.cooking | [Step 4] Lowering Mixer Valve
+2026-03-18 10:58:13 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 10:58:13 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 10:58:14 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 10:58:14 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 10:58:15 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] DOWN
+2026-03-18 10:58:35 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 10:58:35 | INFO     | biryani.core.state_machine | State: STEP_IN_PROGRESS -> WAITING
+2026-03-18 10:58:35 | INFO     | biryani.core.state_machine | Step 5/10: Mixer Motor Running
+2026-03-18 10:58:35 | INFO     | biryani.core.state_machine | State: WAITING -> STEP_IN_PROGRESS
+2026-03-18 10:58:35 | INFO     | biryani.services.cooking | [Step 5] Mixer Motor Running
+2026-03-18 10:58:35 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 10:58:35 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 10:58:36 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 10:58:36 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 10:58:36 | INFO     | biryani.hardware.motor | [Motor1-Mixer] ON
+2026-03-18 10:58:38 | INFO     | biryani.core.emergency_stop | Stopping all devices...
+2026-03-18 10:58:39 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 10:58:39 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 10:58:39 | INFO     | biryani.hardware.valve | [Valve3-Filter] OFF
+2026-03-18 10:58:39 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 10:58:39 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 10:59:36 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 10:59:36 | INFO     | biryani.core.state_machine | State: STEP_IN_PROGRESS -> WAITING
+2026-03-18 10:59:36 | INFO     | biryani.core.state_machine | Step 6/10: Cooking wait
+2026-03-18 10:59:36 | INFO     | biryani.core.state_machine | State: WAITING -> STEP_IN_PROGRESS
+2026-03-18 10:59:36 | INFO     | biryani.services.cooking | [Step 6] Cooking wait
+2026-03-18 11:00:06 | INFO     | biryani.services.cooking | Temperature: 24.50C
+2026-03-18 11:00:36 | INFO     | biryani.services.cooking | Temperature: 25.25C
+2026-03-18 11:01:06 | INFO     | biryani.services.cooking | Temperature: 24.50C
+2026-03-18 11:01:36 | INFO     | biryani.services.cooking | Temperature: 25.25C
+2026-03-18 11:01:36 | INFO     | biryani.core.state_machine | State: STEP_IN_PROGRESS -> WAITING
+2026-03-18 11:01:36 | INFO     | biryani.core.state_machine | Step 7/10: Lifting Rice Bowl
+2026-03-18 11:01:36 | INFO     | biryani.core.state_machine | State: WAITING -> STEP_IN_PROGRESS
+2026-03-18 11:01:36 | INFO     | biryani.services.cooking | [Step 7] Lifting Rice Bowl
+2026-03-18 11:01:36 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 11:01:36 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 11:01:37 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 11:01:37 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 11:01:38 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] UP
+2026-03-18 11:01:58 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 11:01:58 | INFO     | biryani.core.state_machine | State: STEP_IN_PROGRESS -> WAITING
+2026-03-18 11:01:58 | INFO     | biryani.core.state_machine | Step 8/10: Lifting Mixer Valve
+2026-03-18 11:01:58 | INFO     | biryani.core.state_machine | State: WAITING -> STEP_IN_PROGRESS
+2026-03-18 11:01:58 | INFO     | biryani.services.cooking | [Step 8] Lifting Mixer Valve
+2026-03-18 11:01:58 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 11:01:58 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 11:01:59 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 11:01:59 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 11:02:00 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] UP
+2026-03-18 11:02:20 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 11:02:20 | INFO     | biryani.core.state_machine | State: STEP_IN_PROGRESS -> WAITING
+2026-03-18 11:02:20 | INFO     | biryani.core.state_machine | Step 9/10: Pre-rotation wait
+2026-03-18 11:02:20 | INFO     | biryani.core.state_machine | State: WAITING -> STEP_IN_PROGRESS
+2026-03-18 11:02:20 | INFO     | biryani.services.cooking | [Step 9] Pre-rotation wait
+2026-03-18 11:02:20 | INFO     | biryani.services.cooking | Temperature: 24.50C
+2026-03-18 11:02:35 | INFO     | biryani.core.state_machine | State: STEP_IN_PROGRESS -> WAITING
+2026-03-18 11:02:35 | INFO     | biryani.core.state_machine | Step 10/10: Rotating 180 degrees
+2026-03-18 11:02:35 | INFO     | biryani.core.state_machine | State: WAITING -> STEP_IN_PROGRESS
+2026-03-18 11:02:35 | INFO     | biryani.services.cooking | [Step 10] Rotating 180 degrees
+2026-03-18 11:02:35 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 11:02:35 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 11:02:36 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 11:02:36 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 11:02:36 | INFO     | biryani.hardware.motor | [Motor2-Position] FORWARD
+2026-03-18 11:02:38 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 11:02:38 | INFO     | biryani.core.state_machine | State: STEP_IN_PROGRESS -> WAITING
+2026-03-18 11:02:38 | INFO     | biryani.core.state_machine | State: WAITING -> COMPLETED
+2026-03-18 11:02:38 | INFO     | biryani.services.cooking | Biryani Mode COMPLETED
+2026-03-18 11:02:38 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 11:02:38 | INFO     | biryani.hardware.motor | [Motor2-Position] STOP
+2026-03-18 11:02:39 | INFO     | biryani.hardware.valve | [Valve1-RiceBowl] STOP
+2026-03-18 11:02:39 | INFO     | biryani.hardware.valve | [Valve2-MixerValve] STOP
+2026-03-18 11:08:57 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (non-Raspberry Pi environment)
+2026-03-18 11:08:57 | INFO     | biryani.hardware.gpio | GPIO initialization complete
+2026-03-18 11:08:57 | INFO     | biryani.hardware.gpio | Configured 11 pins
+2026-03-18 11:09:02 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 11:09:04 | INFO     | biryani.hardware.motor | [Motor1-Mixer] OFF
+2026-03-18 11:09:05 | INFO     | biryani.hardware.motor | [Motor1-Mixer] ON
+2026-03-18 11:09:08 | INFO     | biryani.hardware.motor | [Motor2-Position] FORWARD
+2026-03-18 11:16:15 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (non-Raspberry Pi environment)
+2026-03-18 11:16:15 | INFO     | biryani.hardware.gpio | GPIO initialization complete
+2026-03-18 11:16:15 | INFO     | biryani.hardware.gpio | Configured 11 pins
+2026-07-09 12:21:59 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (development mode)
+2026-07-09 12:21:59 | INFO     | biryani.hardware.gpio | GPIO initialized (9 pins)
+2026-07-09 12:21:59 | INFO     | biryani.services.cooking | CookingService initialized (mock=True)
+2026-07-09 13:49:12 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (development mode)
+2026-07-09 13:49:12 | INFO     | biryani.hardware.gpio | GPIO initialized (9 pins)
+2026-07-09 13:49:12 | INFO     | biryani.services.cooking | CookingService initialized (mock=True)
+2026-07-09 13:49:12 | WARNING  | biryani.services.cooking | Recipe cook_rice is not enabled on machine yet
+2026-07-09 13:49:12 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 13:49:12 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 13:49:12 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 13:49:13 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 13:49:13 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 13:49:13 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 13:49:13 | WARNING  | biryani.core.emergency_stop | EMERGENCY STOP — all devices stopped
+2026-07-09 13:49:13 | WARNING  | biryani.services.cooking | Cooking emergency stop
+2026-07-09 13:53:34 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (development mode)
+2026-07-09 14:20:00 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (development mode)
+2026-07-09 14:20:24 | INFO     | biryani.hardware.gpio | GPIO initialized (9 pins)
+2026-07-09 14:20:24 | INFO     | biryani.services.cooking | CookingService initialized (mock=True)
+2026-07-09 14:20:24 | INFO     | biryani.services.cooking | Step 1/26: rice_bowl_down_mixer_down — Preparing ingredients
+2026-07-09 14:20:25 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:20:25 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 14:20:41 | INFO     | biryani.services.cooking | Step 2/26: stop_bowls — Preparing ingredients
+2026-07-09 14:20:42 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:20:42 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:20:42 | INFO     | biryani.services.cooking | Step 3/26: mixer_motor_on — Mixing
+2026-07-09 14:20:42 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:21:42 | INFO     | biryani.services.cooking | Step 4/26: mixer_motor_off — Heating
+2026-07-09 14:21:42 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:21:42 | INFO     | biryani.services.cooking | Step 5/26: stop_everything — Cooking
+2026-07-09 14:21:42 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:21:42 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:21:43 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:21:43 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:21:43 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:21:43 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 14:23:43 | INFO     | biryani.services.cooking | Step 6/26: electronic_valve_open — Adding ingredients
+2026-07-09 14:23:43 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:23:43 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:23:53 | INFO     | biryani.services.cooking | Step 7/26: electronic_valve_close_wait — Adding ingredients
+2026-07-09 14:23:53 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:23:53 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:23:56 | INFO     | biryani.services.cooking | Step 8/26: stop_valve — Adding ingredients
+2026-07-09 14:23:56 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:23:56 | INFO     | biryani.services.cooking | Step 9/26: rice_bowl_up_mixer_up — Cooking
+2026-07-09 14:23:57 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 14:23:57 | INFO     | biryani.hardware.valve | Mixer UP
+2026-07-09 14:24:13 | INFO     | biryani.services.cooking | Step 10/26: stop_bowls — Cooking
+2026-07-09 14:24:14 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:24:14 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:24:14 | INFO     | biryani.services.cooking | Step 11/26: position_motor_forward — Cooking
+2026-07-09 14:24:14 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:24:14 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 14:24:17 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:24:17 | INFO     | biryani.services.cooking | Step 12/26: rice_bowl_down_valve_open — Finalizing
+2026-07-09 14:24:18 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:24:18 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:24:18 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:24:38 | INFO     | biryani.services.cooking | Step 13/26: electronic_valve_close_wait — Finalizing
+2026-07-09 14:24:38 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:24:38 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:24:41 | INFO     | biryani.services.cooking | Step 14/26: stop_rice_bowl_valve — Finalizing
+2026-07-09 14:24:41 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:24:41 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:24:41 | INFO     | biryani.services.cooking | Step 15/26: rice_bowl_up — Finalizing
+2026-07-09 14:24:42 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 14:24:58 | INFO     | biryani.services.cooking | Step 16/26: stop_rice_bowl — Finalizing
+2026-07-09 14:24:58 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:24:58 | INFO     | biryani.services.cooking | Step 17/26: position_motor_backward — Finalizing
+2026-07-09 14:24:58 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:24:58 | INFO     | biryani.hardware.stepper | Position Motor BACKWARD 180 DEGREE
+2026-07-09 14:25:01 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:25:01 | INFO     | biryani.services.cooking | Step 18/26: mixer_down — Finalizing
+2026-07-09 14:25:02 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 14:25:18 | INFO     | biryani.services.cooking | Step 19/26: stop_mixer_hydraulic — Mixing
+2026-07-09 14:25:18 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:25:18 | INFO     | biryani.services.cooking | Step 20/26: mixer_motor_on — Mixing
+2026-07-09 14:25:18 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:25:48 | INFO     | biryani.services.cooking | Step 21/26: mixer_motor_off — Mixing
+2026-07-09 14:25:48 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:25:48 | INFO     | biryani.services.cooking | Step 22/26: mixer_up — Ready to Serve
+2026-07-09 14:25:49 | INFO     | biryani.hardware.valve | Mixer UP
+2026-07-09 14:26:05 | INFO     | biryani.services.cooking | Step 23/26: stop_mixer_hydraulic — Ready to Serve
+2026-07-09 14:26:05 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:26:05 | INFO     | biryani.services.cooking | Step 24/26: position_motor_forward — Ready to Serve
+2026-07-09 14:26:05 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:26:05 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 14:26:08 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:26:08 | INFO     | biryani.services.cooking | Step 25/26: rice_bowl_down — Ready to Serve
+2026-07-09 14:26:09 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:26:25 | INFO     | biryani.services.cooking | Step 26/26: stop_rice_bowl — Ready to Serve
+2026-07-09 14:26:25 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:26:25 | INFO     | biryani.services.cooking | Recipe chicken_biryani completed in 361s
+2026-07-09 14:31:27 | INFO     | biryani.services.cooking | Step 1/26: rice_bowl_down_mixer_down — Preparing ingredients
+2026-07-09 14:31:27 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:31:28 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 14:31:44 | INFO     | biryani.services.cooking | Step 2/26: stop_bowls — Preparing ingredients
+2026-07-09 14:31:45 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:31:45 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:31:45 | INFO     | biryani.services.cooking | Step 3/26: mixer_motor_on — Mixing
+2026-07-09 14:31:45 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:32:45 | INFO     | biryani.services.cooking | Step 4/26: mixer_motor_off — Heating
+2026-07-09 14:32:45 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:32:45 | INFO     | biryani.services.cooking | Step 5/26: stop_everything — Cooking
+2026-07-09 14:32:45 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:32:45 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:32:46 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:32:46 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:32:46 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:32:46 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 14:33:56 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:33:56 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:33:57 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:33:57 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:33:57 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:33:57 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 14:33:57 | WARNING  | biryani.core.emergency_stop | EMERGENCY STOP — all devices stopped
+2026-07-09 14:33:57 | WARNING  | biryani.services.cooking | Cooking emergency stop
+2026-07-09 14:34:23 | INFO     | biryani.services.cooking | Step 1/26: rice_bowl_down_mixer_down — Preparing ingredients
+2026-07-09 14:34:23 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:34:24 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 14:34:40 | INFO     | biryani.services.cooking | Step 2/26: stop_bowls — Preparing ingredients
+2026-07-09 14:34:40 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:34:41 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:34:41 | INFO     | biryani.services.cooking | Step 3/26: mixer_motor_on — Mixing
+2026-07-09 14:34:41 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:35:41 | INFO     | biryani.services.cooking | Step 4/26: mixer_motor_off — Heating
+2026-07-09 14:35:41 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:35:41 | INFO     | biryani.services.cooking | Step 5/26: stop_everything — Cooking
+2026-07-09 14:35:41 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:35:41 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:35:41 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:35:42 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:35:42 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:35:42 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 14:36:08 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:36:08 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:36:08 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:36:09 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:36:09 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:36:09 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 14:36:09 | WARNING  | biryani.core.emergency_stop | EMERGENCY STOP — all devices stopped
+2026-07-09 14:36:09 | WARNING  | biryani.services.cooking | Cooking emergency stop
+2026-07-09 14:36:50 | INFO     | biryani.services.cooking | Step 1/26: rice_bowl_down_mixer_down — Preparing ingredients
+2026-07-09 14:36:51 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:36:51 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 14:37:07 | INFO     | biryani.services.cooking | Step 2/26: stop_bowls — Preparing ingredients
+2026-07-09 14:37:08 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:37:08 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:37:08 | INFO     | biryani.services.cooking | Step 3/26: mixer_motor_on — Mixing
+2026-07-09 14:37:08 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:38:08 | INFO     | biryani.services.cooking | Step 4/26: mixer_motor_off — Heating
+2026-07-09 14:38:08 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:38:08 | INFO     | biryani.services.cooking | Step 5/26: stop_everything — Cooking
+2026-07-09 14:38:08 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:38:08 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:38:09 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:38:09 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:38:09 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:38:09 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 14:38:52 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (development mode)
+2026-07-09 14:40:09 | INFO     | biryani.services.cooking | Step 6/26: electronic_valve_open — Adding ingredients
+2026-07-09 14:40:09 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:40:09 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:40:19 | INFO     | biryani.services.cooking | Step 7/26: electronic_valve_close_wait — Adding ingredients
+2026-07-09 14:40:19 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:40:19 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:40:22 | INFO     | biryani.services.cooking | Step 8/26: stop_valve — Adding ingredients
+2026-07-09 14:40:22 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:40:22 | INFO     | biryani.services.cooking | Step 9/26: rice_bowl_up_mixer_up — Cooking
+2026-07-09 14:40:23 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 14:40:23 | INFO     | biryani.hardware.valve | Mixer UP
+2026-07-09 14:40:39 | INFO     | biryani.services.cooking | Step 10/26: stop_bowls — Cooking
+2026-07-09 14:40:40 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:40:40 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:40:40 | INFO     | biryani.services.cooking | Step 11/26: position_motor_forward — Cooking
+2026-07-09 14:40:40 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:40:40 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 14:40:43 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:40:43 | INFO     | biryani.services.cooking | Step 12/26: rice_bowl_down_valve_open — Finalizing
+2026-07-09 14:40:44 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:40:44 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:40:44 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:41:04 | INFO     | biryani.services.cooking | Step 13/26: electronic_valve_close_wait — Finalizing
+2026-07-09 14:41:04 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:41:04 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:41:07 | INFO     | biryani.services.cooking | Step 14/26: stop_rice_bowl_valve — Finalizing
+2026-07-09 14:41:07 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:41:07 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:41:07 | INFO     | biryani.services.cooking | Step 15/26: rice_bowl_up — Finalizing
+2026-07-09 14:41:08 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 14:41:24 | INFO     | biryani.services.cooking | Step 16/26: stop_rice_bowl — Finalizing
+2026-07-09 14:41:24 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:41:24 | INFO     | biryani.services.cooking | Step 17/26: position_motor_backward — Finalizing
+2026-07-09 14:41:24 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:41:24 | INFO     | biryani.hardware.stepper | Position Motor BACKWARD 180 DEGREE
+2026-07-09 14:41:27 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:41:27 | INFO     | biryani.services.cooking | Step 18/26: mixer_down — Finalizing
+2026-07-09 14:41:28 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 14:41:44 | INFO     | biryani.services.cooking | Step 19/26: stop_mixer_hydraulic — Mixing
+2026-07-09 14:41:44 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:41:44 | INFO     | biryani.services.cooking | Step 20/26: mixer_motor_on — Mixing
+2026-07-09 14:41:44 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:42:07 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:42:07 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:42:08 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:42:08 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:42:08 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:42:08 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 14:42:08 | WARNING  | biryani.core.emergency_stop | EMERGENCY STOP — all devices stopped
+2026-07-09 14:42:08 | WARNING  | biryani.services.cooking | Cooking emergency stop
+2026-07-09 14:42:57 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:42:57 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:42:58 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:42:58 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:42:59 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:42:59 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:42:59 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:42:59 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:00 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:00 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:43:00 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:00 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:01 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:01 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:01 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:43:03 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:05 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:05 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:05 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:05 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:05 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:05 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:05 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:06 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 14:43:06 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 14:43:06 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:06 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 14:43:07 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:07 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:07 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 14:43:08 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:08 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:08 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:09 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:09 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:09 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:09 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 14:43:09 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:10 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:24 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:43:24 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:43:25 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:43:25 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:43:26 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:43:26 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:43:28 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:43:28 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:43:28 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:43:28 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:43:28 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:43:28 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:43:29 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:43:29 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:43:32 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:32 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:33 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:33 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:33 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:33 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:34 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:43:34 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:34 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:35 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:35 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 14:43:37 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:43:37 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:43:50 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:50 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:51 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:51 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:51 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:43:51 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:51 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:52 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:52 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:52 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:52 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:43:53 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:53 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:54 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:54 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:43:54 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:54 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:54 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:54 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 14:43:54 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:43:55 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:43:55 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:55 | INFO     | biryani.hardware.stepper | Position Motor BACKWARD 180 DEGREE
+2026-07-09 14:43:57 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:43:58 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:44:00 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:44:00 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:45:02 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:45:02 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:45:03 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:45:03 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:45:03 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:45:03 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:45:04 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:45:04 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:45:04 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:45:04 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:45:05 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:45:05 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 14:45:05 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:45:06 | INFO     | biryani.hardware.valve | Mixer UP
+2026-07-09 14:45:06 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:45:06 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:45:06 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:45:07 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:45:07 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:46:08 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:46:08 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:46:09 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:46:09 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:46:10 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 14:46:38 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (development mode)
+2026-07-09 14:47:19 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:19 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:20 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:47:20 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:47:20 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:47:20 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:20 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:21 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:47:21 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:47:21 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:47:22 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:23 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:23 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:24 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:47:24 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:47:24 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:24 | INFO     | biryani.hardware.stepper | Position Motor BACKWARD 180 DEGREE
+2026-07-09 14:47:25 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:26 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:27 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:28 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:29 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:29 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:29 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:47:30 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:47:30 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:47:30 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:30 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:31 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:47:31 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:47:31 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:47:33 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:33 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:34 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:47:34 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:47:35 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:47:37 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:37 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:37 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:47:38 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:47:38 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:47:39 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:39 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:39 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:47:40 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:47:40 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 14:47:43 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:43 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:43 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:47:44 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:47:44 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 14:47:45 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:47:45 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:47:47 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:47:47 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:47:52 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:47:52 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:47:52 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:47:53 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:47:53 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:47:53 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 14:47:53 | WARNING  | biryani.core.emergency_stop | EMERGENCY STOP — all devices stopped
+2026-07-09 14:47:53 | WARNING  | biryani.services.cooking | Cooking emergency stop
+2026-07-09 14:48:02 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:52:15 | INFO     | biryani.services.cooking | Step 1/26: rice_bowl_down_mixer_down — Preparing ingredients
+2026-07-09 14:52:16 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:52:16 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 14:52:32 | INFO     | biryani.services.cooking | Step 2/26: stop_bowls — Preparing ingredients
+2026-07-09 14:52:33 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:52:33 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:52:33 | INFO     | biryani.services.cooking | Step 3/26: mixer_motor_on — Mixing
+2026-07-09 14:52:33 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:53:33 | INFO     | biryani.services.cooking | Step 4/26: mixer_motor_off — Heating
+2026-07-09 14:53:33 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:53:33 | INFO     | biryani.services.cooking | Step 5/26: stop_everything — Cooking
+2026-07-09 14:53:33 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:53:33 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:53:34 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:53:34 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:53:34 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:53:34 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 14:55:34 | INFO     | biryani.services.cooking | Step 6/26: electronic_valve_open — Adding ingredients
+2026-07-09 14:55:34 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:55:34 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:55:44 | INFO     | biryani.services.cooking | Step 7/26: electronic_valve_close_wait — Adding ingredients
+2026-07-09 14:55:44 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:55:44 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:55:47 | INFO     | biryani.services.cooking | Step 8/26: stop_valve — Adding ingredients
+2026-07-09 14:55:47 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:55:47 | INFO     | biryani.services.cooking | Step 9/26: rice_bowl_up_mixer_up — Cooking
+2026-07-09 14:55:48 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 14:55:48 | INFO     | biryani.hardware.valve | Mixer UP
+2026-07-09 14:56:04 | INFO     | biryani.services.cooking | Step 10/26: stop_bowls — Cooking
+2026-07-09 14:56:05 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:56:05 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:56:05 | INFO     | biryani.services.cooking | Step 11/26: position_motor_forward — Cooking
+2026-07-09 14:56:05 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:56:05 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 14:56:08 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:56:08 | INFO     | biryani.services.cooking | Step 12/26: rice_bowl_down_valve_open — Finalizing
+2026-07-09 14:56:09 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:56:09 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:56:09 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 14:56:29 | INFO     | biryani.services.cooking | Step 13/26: electronic_valve_close_wait — Finalizing
+2026-07-09 14:56:29 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:56:29 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 14:56:32 | INFO     | biryani.services.cooking | Step 14/26: stop_rice_bowl_valve — Finalizing
+2026-07-09 14:56:32 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:56:32 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 14:56:32 | INFO     | biryani.services.cooking | Step 15/26: rice_bowl_up — Finalizing
+2026-07-09 14:56:33 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 14:56:49 | INFO     | biryani.services.cooking | Step 16/26: stop_rice_bowl — Finalizing
+2026-07-09 14:56:49 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:56:49 | INFO     | biryani.services.cooking | Step 17/26: position_motor_backward — Finalizing
+2026-07-09 14:56:49 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:56:49 | INFO     | biryani.hardware.stepper | Position Motor BACKWARD 180 DEGREE
+2026-07-09 14:56:52 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:56:52 | INFO     | biryani.services.cooking | Step 18/26: mixer_down — Finalizing
+2026-07-09 14:56:53 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 14:57:09 | INFO     | biryani.services.cooking | Step 19/26: stop_mixer_hydraulic — Mixing
+2026-07-09 14:57:09 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:57:09 | INFO     | biryani.services.cooking | Step 20/26: mixer_motor_on — Mixing
+2026-07-09 14:57:09 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 14:57:39 | INFO     | biryani.services.cooking | Step 21/26: mixer_motor_off — Mixing
+2026-07-09 14:57:39 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 14:57:39 | INFO     | biryani.services.cooking | Step 22/26: mixer_up — Ready to Serve
+2026-07-09 14:57:40 | INFO     | biryani.hardware.valve | Mixer UP
+2026-07-09 14:57:56 | INFO     | biryani.services.cooking | Step 23/26: stop_mixer_hydraulic — Ready to Serve
+2026-07-09 14:57:56 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 14:57:56 | INFO     | biryani.services.cooking | Step 24/26: position_motor_forward — Ready to Serve
+2026-07-09 14:57:56 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:57:56 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 14:57:59 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 14:57:59 | INFO     | biryani.services.cooking | Step 25/26: rice_bowl_down — Ready to Serve
+2026-07-09 14:58:00 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 14:58:16 | INFO     | biryani.services.cooking | Step 26/26: stop_rice_bowl — Ready to Serve
+2026-07-09 14:58:16 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 14:58:16 | INFO     | biryani.services.cooking | Recipe chicken_biryani completed in 361s
+2026-07-09 15:08:31 | INFO     | biryani.services.cooking | Step 1/26: rice_bowl_down_mixer_down — Preparing ingredients
+2026-07-09 15:08:32 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 15:08:32 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 15:08:48 | INFO     | biryani.services.cooking | Step 2/26: stop_bowls — Preparing ingredients
+2026-07-09 15:08:49 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 15:08:49 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 15:08:49 | INFO     | biryani.services.cooking | Step 3/26: mixer_motor_on — Mixing
+2026-07-09 15:08:49 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 15:09:50 | INFO     | biryani.services.cooking | Step 4/26: mixer_motor_off — Heating
+2026-07-09 15:09:50 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 15:09:50 | INFO     | biryani.services.cooking | Step 5/26: stop_everything — Cooking
+2026-07-09 15:09:50 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 15:09:50 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 15:09:50 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 15:09:51 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 15:09:51 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 15:09:51 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 15:11:51 | INFO     | biryani.services.cooking | Step 6/26: electronic_valve_open — Adding ingredients
+2026-07-09 15:11:51 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 15:11:51 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 15:12:01 | INFO     | biryani.services.cooking | Step 7/26: electronic_valve_close_wait — Adding ingredients
+2026-07-09 15:12:01 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 15:12:01 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 15:12:04 | INFO     | biryani.services.cooking | Step 8/26: stop_valve — Adding ingredients
+2026-07-09 15:12:04 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 15:12:04 | INFO     | biryani.services.cooking | Step 9/26: rice_bowl_up_mixer_up — Cooking
+2026-07-09 15:12:04 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 15:12:05 | INFO     | biryani.hardware.valve | Mixer UP
+2026-07-09 15:12:21 | INFO     | biryani.services.cooking | Step 10/26: stop_bowls — Cooking
+2026-07-09 15:12:21 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 15:12:22 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 15:12:22 | INFO     | biryani.services.cooking | Step 11/26: position_motor_forward — Cooking
+2026-07-09 15:12:22 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 15:12:22 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 15:12:25 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 15:12:25 | INFO     | biryani.services.cooking | Step 12/26: rice_bowl_down_valve_open — Finalizing
+2026-07-09 15:12:25 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 15:12:25 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 15:12:25 | INFO     | biryani.hardware.valve | Electronic Valve OPEN
+2026-07-09 15:12:45 | INFO     | biryani.services.cooking | Step 13/26: electronic_valve_close_wait — Finalizing
+2026-07-09 15:12:45 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 15:12:45 | INFO     | biryani.hardware.valve | Electronic Valve CLOSE
+2026-07-09 15:12:48 | INFO     | biryani.services.cooking | Step 14/26: stop_rice_bowl_valve — Finalizing
+2026-07-09 15:12:49 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 15:12:49 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 15:12:49 | INFO     | biryani.services.cooking | Step 15/26: rice_bowl_up — Finalizing
+2026-07-09 15:12:49 | INFO     | biryani.hardware.valve | Rice Bowl UP
+2026-07-09 15:13:05 | INFO     | biryani.services.cooking | Step 16/26: stop_rice_bowl — Finalizing
+2026-07-09 15:13:06 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 15:13:06 | INFO     | biryani.services.cooking | Step 17/26: position_motor_backward — Finalizing
+2026-07-09 15:13:06 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 15:13:06 | INFO     | biryani.hardware.stepper | Position Motor BACKWARD 180 DEGREE
+2026-07-09 15:13:09 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 15:13:09 | INFO     | biryani.services.cooking | Step 18/26: mixer_down — Finalizing
+2026-07-09 15:13:09 | INFO     | biryani.hardware.valve | Mixer DOWN
+2026-07-09 15:13:25 | INFO     | biryani.services.cooking | Step 19/26: stop_mixer_hydraulic — Mixing
+2026-07-09 15:13:26 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 15:13:26 | INFO     | biryani.services.cooking | Step 20/26: mixer_motor_on — Mixing
+2026-07-09 15:13:26 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 15:13:56 | INFO     | biryani.services.cooking | Step 21/26: mixer_motor_off — Mixing
+2026-07-09 15:13:56 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 15:13:56 | INFO     | biryani.services.cooking | Step 22/26: mixer_up — Ready to Serve
+2026-07-09 15:13:56 | INFO     | biryani.hardware.valve | Mixer UP
+2026-07-09 15:14:12 | INFO     | biryani.services.cooking | Step 23/26: stop_mixer_hydraulic — Ready to Serve
+2026-07-09 15:14:13 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 15:14:13 | INFO     | biryani.services.cooking | Step 24/26: position_motor_forward — Ready to Serve
+2026-07-09 15:14:13 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 15:14:13 | INFO     | biryani.hardware.stepper | Position Motor FORWARD 180 DEGREE
+2026-07-09 15:14:16 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 15:14:16 | INFO     | biryani.services.cooking | Step 25/26: rice_bowl_down — Ready to Serve
+2026-07-09 15:14:16 | INFO     | biryani.hardware.valve | Rice Bowl DOWN
+2026-07-09 15:14:32 | INFO     | biryani.services.cooking | Step 26/26: stop_rice_bowl — Ready to Serve
+2026-07-09 15:14:33 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 15:14:33 | INFO     | biryani.services.cooking | Recipe chicken_biryani completed in 361s
+2026-07-09 18:16:40 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 18:16:40 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 18:16:40 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 18:16:41 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 18:16:41 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 18:16:43 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 18:16:43 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 18:16:43 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 18:16:44 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 18:16:44 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 18:16:44 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 18:16:44 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 18:16:44 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 18:16:45 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 18:16:45 | INFO     | biryani.hardware.stirrer | Mixer Motor ON
+2026-07-09 18:16:46 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 18:16:48 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 18:19:48 | INFO     | biryani.hardware.stirrer | Mixer Motor OFF
+2026-07-09 18:19:48 | INFO     | biryani.hardware.stepper | Position Motor STOP
+2026-07-09 18:19:48 | INFO     | biryani.hardware.valve | Rice Bowl STOP
+2026-07-09 18:19:49 | INFO     | biryani.hardware.valve | Mixer STOP
+2026-07-09 18:19:49 | INFO     | biryani.hardware.valve | Electronic Valve STOP
+2026-07-09 18:19:49 | INFO     | biryani.hardware.machine | ALL DEVICES STOPPED
+2026-07-09 18:19:49 | WARNING  | biryani.core.emergency_stop | EMERGENCY STOP — all devices stopped
+2026-07-09 18:19:49 | WARNING  | biryani.services.cooking | Cooking emergency stop
+2026-07-10 09:54:37 | INFO     | biryani.hardware.gpio | Using MOCK GPIO (development mode)

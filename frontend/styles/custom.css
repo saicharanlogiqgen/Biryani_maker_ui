@@ -1,0 +1,568 @@
+/* Automatic Biryani Maker — Industrial Dark Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-primary: #0a1628;
+    --bg-secondary: #112240;
+    --bg-card: #1a2f4a;
+    --bg-card-hover: #1f3a5c;
+    --accent-green: #00c853;
+    --accent-green-hover: #00e676;
+    --accent-yellow: #ffc107;
+    --accent-cyan: #00bcd4;
+    --accent-orange: #ff6d00;
+    --text-primary: #e8edf5;
+    --text-secondary: #8899aa;
+    --text-muted: #5a6d80;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-accent: rgba(255, 193, 7, 0.4);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+}
+
+/* Hide Streamlit chrome for cleaner kiosk feel */
+#MainMenu, footer, header[data-testid="stHeader"] {
+    visibility: hidden;
+    height: 0;
+    min-height: 0;
+}
+
+.stApp {
+    background: linear-gradient(160deg, var(--bg-primary) 0%, #0d1f35 50%, var(--bg-primary) 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-primary);
+}
+
+.block-container {
+    padding-top: 1.5rem !important;
+    padding-bottom: 2rem !important;
+    max-width: 1100px !important;
+}
+
+/* ── Header ── */
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0 1.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 2rem;
+}
+
+.app-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.app-title span {
+    color: var(--accent-yellow);
+}
+
+.app-clock {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Step Indicator ── */
+.step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 0 0 auto;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 2px solid var(--text-muted);
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+    transition: all 0.3s ease;
+}
+
+.step-circle.active {
+    border-color: var(--accent-yellow);
+    color: var(--accent-yellow);
+    background: rgba(255, 193, 7, 0.12);
+    box-shadow: 0 0 16px rgba(255, 193, 7, 0.25);
+}
+
+.step-circle.done {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+    background: rgba(0, 200, 83, 0.12);
+}
+
+.step-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.step-label.active { color: var(--accent-yellow); }
+.step-label.done { color: var(--accent-green); }
+
+.step-connector {
+    flex: 1;
+    height: 2px;
+    background: var(--border-subtle);
+    margin: 0 0.5rem;
+    margin-bottom: 1.4rem;
+    max-width: 80px;
+}
+
+.step-connector.done {
+    background: var(--accent-green);
+}
+
+/* ── Recipe Cards Grid ── */
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .recipe-grid {
+        grid-template-columns: 1fr;
+    }
+    .app-title { font-size: 1.4rem; }
+}
+
+.recipe-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 1.5rem;
+    text-align: center;
+    transition: all 0.25s ease;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.recipe-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--card-accent, var(--accent-cyan)), transparent);
+    opacity: 0.7;
+}
+
+.recipe-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+}
+
+.recipe-icon {
+    font-size: 3.5rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.recipe-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+}
+
+.recipe-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    min-height: 2.6em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* ── Ingredients Checklist ── */
+.ingredients-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 2rem;
+    box-shadow: var(--shadow-card);
+}
+
+.panel-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.panel-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+.ingredient-list {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    box-shadow: var(--shadow-card);
+}
+
+.ingredient-item {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-sm);
+    padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+    margin-bottom: 0.5rem;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.ingredient-list div[data-testid="stHorizontalBlock"] {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 0.85rem;
+    margin-bottom: 0.5rem;
+    align-items: center !important;
+}
+
+.ingredient-list div[data-testid="stHorizontalBlock"]:has(input:checked) {
+    background: rgba(0, 200, 83, 0.14);
+    border-color: rgba(0, 200, 83, 0.45);
+}
+
+.ingredient-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem 0.5rem 0;
+}
+
+.ingredient-name {
+    font-weight: 600 !important;
+    font-size: 1.05rem !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+.ingredient-qty {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #4dd0e1 !important;
+    -webkit-text-fill-color: #4dd0e1 !important;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.ingredient-list div[data-testid="stCheckbox"] {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.ingredient-list div[data-testid="stCheckbox"] input[type="checkbox"] {
+    width: 22px !important;
+    height: 22px !important;
+    accent-color: #00c853 !important;
+    cursor: pointer !important;
+}
+
+.ingredient-list div[data-testid="column"] {
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* ── Cooking Progress ── */
+.cooking-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-card);
+}
+
+.stage-indicator-ring {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--border-subtle);
+    border-top-color: var(--accent-yellow);
+    animation: spin 1.2s linear infinite;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.stage-indicator-ring .stage-emoji {
+    font-size: 2.5rem;
+    animation: spin-reverse 1.2s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+    to { transform: rotate(-360deg); }
+}
+
+.current-stage-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-yellow);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.current-stage-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar-track {
+    width: 100%;
+    height: 14px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 7px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 7px;
+    background: linear-gradient(90deg, var(--accent-green), var(--accent-yellow));
+    transition: width 0.4s ease;
+    box-shadow: 0 0 12px rgba(0, 200, 83, 0.4);
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.stages-timeline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.stage-chip {
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+    transition: all 0.3s ease;
+}
+
+.stage-chip.active {
+    background: rgba(255, 193, 7, 0.15);
+    color: var(--accent-yellow);
+    border-color: rgba(255, 193, 7, 0.4);
+}
+
+.stage-chip.done {
+    background: rgba(0, 200, 83, 0.1);
+    color: var(--accent-green);
+    border-color: rgba(0, 200, 83, 0.3);
+}
+
+/* ── Completion Screen ── */
+.completion-panel {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    background: var(--bg-card);
+    border: 1px solid rgba(0, 200, 83, 0.3);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+}
+
+.success-checkmark {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: rgba(0, 200, 83, 0.15);
+    border: 3px solid var(--accent-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+    animation: pop-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes pop-in {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.success-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-green);
+    margin-bottom: 0.5rem;
+    animation: fade-up 0.5s ease 0.3s both;
+}
+
+.success-time {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    animation: fade-up 0.5s ease 0.5s both;
+}
+
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Streamlit widget overrides ── */
+div[data-testid="stButton"] > button[kind="primary"] {
+    background: var(--accent-green) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: var(--radius-md) !important;
+    font-weight: 600 !important;
+    padding: 0.6rem 2rem !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 4px 16px rgba(0, 200, 83, 0.3) !important;
+}
+
+div[data-testid="stButton"] > button[kind="primary"]:hover {
+    background: var(--accent-green-hover) !important;
+    box-shadow: 0 6px 20px rgba(0, 200, 83, 0.45) !important;
+}
+
+div[data-testid="stButton"] > button[kind="secondary"] {
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-md) !important;
+    font-weight: 500 !important;
+}
+
+div[data-testid="stButton"] > button:disabled {
+    opacity: 0.35 !important;
+    cursor: not-allowed !important;
+}
+
+div[data-testid="stCheckbox"] label {
+    width: 100%;
+    cursor: pointer;
+}
+
+div[data-testid="stCheckbox"] label span {
+    color: #f0f4f8 !important;
+    font-size: 1rem !important;
+}
+
+div[data-testid="stCheckbox"] label span[data-testid="stMarkdownContainer"] p {
+    font-weight: 500 !important;
+    color: #f0f4f8 !important;
+    margin: 0 !important;
+}
+
+div[data-testid="stCheckbox"] label span[data-testid="stMarkdownContainer"] strong {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* Checkbox input visibility on dark background */
+div[data-testid="stCheckbox"] input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    accent-color: var(--accent-green) !important;
+    cursor: pointer !important;
+    flex-shrink: 0;
+}
+
+div[data-testid="stCheckbox"] label > div {
+    gap: 0.75rem !important;
+}
+
+.stProgress > div > div {
+    background: linear-gradient(90deg, var(--accent-green), var(--accent-yellow)) !important;
+}
+
+.manual-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.manual-device-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.manual-state-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-subtle);
+    letter-spacing: 0.04em;
+}
+
+.manual-state-on {
+    color: #00e676;
+    background: rgba(0, 200, 83, 0.18);
+    border-color: rgba(0, 200, 83, 0.45);
+}
+
+.manual-state-off {
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.06);
+}
