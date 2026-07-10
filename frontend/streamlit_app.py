@@ -11,7 +11,15 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from frontend.data.recipes import RECIPES
+from frontend.data.recipes import (
+    RECIPES,
+    CURRY_CATEGORIES,
+    RICE_CATEGORIES,
+    BIRYANI_CATEGORIES,
+    get_selected_curry,
+    get_selected_rice_item,
+    get_selected_biryani,
+)
 from frontend.components.recipe_card import render_recipe_card
 from frontend.components.progress_tracker import (
     run_cooking_with_service,
@@ -46,6 +54,12 @@ def init_session_state() -> None:
         "splash_start_time": None,
         "selected_recipe": None,
         "selected_batch": None,
+        "selected_curry_category": None,
+        "selected_curry_id": None,
+        "selected_rice_category": None,
+        "selected_rice_id": None,
+        "selected_biryani_category": None,
+        "selected_biryani_id": None,
         "cook_start_time": None,
         "total_cook_time": 0,
         "cooking_started": False,
@@ -99,10 +113,80 @@ def count_checked_ingredients(recipe_id: str) -> int:
 def get_active_ingredients(recipe_id: str) -> list[dict]:
     recipe = RECIPES[recipe_id]
     if recipe_id == "chicken_biryani":
-        selected_batch = st.session_state.get("selected_batch") or recipe.get("default_batch", "5kg")
-        batch_map = recipe.get("batch_ingredients", {})
-        return batch_map.get(selected_batch, batch_map.get("5kg", []))
+        biryani = get_selected_biryani(
+            st.session_state.get("selected_biryani_category"),
+            st.session_state.get("selected_biryani_id"),
+        )
+        if not biryani:
+            return []
+        if biryani.get("batch_ingredients"):
+            selected_batch = st.session_state.get("selected_batch") or biryani.get("default_batch", "5kg")
+            return biryani["batch_ingredients"].get(selected_batch, biryani.get("ingredients", []))
+        return biryani.get("ingredients", [])
+    if recipe_id == "curry":
+        curry = get_selected_curry(
+            st.session_state.get("selected_curry_category"),
+            st.session_state.get("selected_curry_id"),
+        )
+        return curry["ingredients"] if curry else []
+    if recipe_id == "cook_rice":
+        item = get_selected_rice_item(
+            st.session_state.get("selected_rice_category"),
+            st.session_state.get("selected_rice_id"),
+        )
+        return item["ingredients"] if item else []
     return recipe["ingredients"]
+
+
+def get_display_recipe() -> dict:
+    """Recipe used for titles/stages during cooking and completion."""
+    recipe_id = st.session_state.selected_recipe
+    recipe = RECIPES[recipe_id]
+    if recipe_id == "curry":
+        curry = get_selected_curry(
+            st.session_state.get("selected_curry_category"),
+            st.session_state.get("selected_curry_id"),
+        )
+        if curry:
+            return {
+                **recipe,
+                "id": curry["id"],
+                "title": curry["title"],
+                "emoji": curry["emoji"],
+                "description": curry["description"],
+                "ingredients": curry["ingredients"],
+            }
+    if recipe_id == "cook_rice":
+        item = get_selected_rice_item(
+            st.session_state.get("selected_rice_category"),
+            st.session_state.get("selected_rice_id"),
+        )
+        if item:
+            return {
+                **recipe,
+                "id": item["id"],
+                "title": item["title"],
+                "emoji": item["emoji"],
+                "description": item["description"],
+                "ingredients": item["ingredients"],
+            }
+    if recipe_id == "chicken_biryani":
+        biryani = get_selected_biryani(
+            st.session_state.get("selected_biryani_category"),
+            st.session_state.get("selected_biryani_id"),
+        )
+        if biryani:
+            return {
+                **recipe,
+                "id": biryani["id"],
+                "title": biryani["title"],
+                "emoji": biryani["emoji"],
+                "description": biryani["description"],
+                "ingredients": get_active_ingredients(recipe_id),
+                "batch_options": biryani.get("batch_options"),
+                "default_batch": biryani.get("default_batch"),
+            }
+    return recipe
 
 
 def reset_workflow() -> None:
@@ -111,6 +195,12 @@ def reset_workflow() -> None:
     st.session_state.workflow_step = "dashboard"
     st.session_state.selected_recipe = None
     st.session_state.selected_batch = None
+    st.session_state.selected_curry_category = None
+    st.session_state.selected_curry_id = None
+    st.session_state.selected_rice_category = None
+    st.session_state.selected_rice_id = None
+    st.session_state.selected_biryani_category = None
+    st.session_state.selected_biryani_id = None
     clear_ingredient_keys()
     st.session_state.cook_start_time = None
     st.session_state.total_cook_time = 0
@@ -151,13 +241,24 @@ def render_manual_title(title: str, device: str) -> None:
 def start_recipe(recipe_id: str) -> None:
     clear_ingredient_keys()
     st.session_state.selected_recipe = recipe_id
-    if recipe_id == "chicken_biryani":
-        st.session_state.selected_batch = RECIPES[recipe_id].get("default_batch", "5kg")
-    else:
-        st.session_state.selected_batch = None
-    init_ingredient_keys(recipe_id)
-    st.session_state.workflow_step = "ingredients"
+    st.session_state.selected_batch = None
+    st.session_state.selected_curry_category = None
+    st.session_state.selected_curry_id = None
+    st.session_state.selected_rice_category = None
+    st.session_state.selected_rice_id = None
+    st.session_state.selected_biryani_category = None
+    st.session_state.selected_biryani_id = None
     st.session_state.cook_start_time = None
+
+    if recipe_id == "chicken_biryani":
+        st.session_state.workflow_step = "biryani_category"
+    elif recipe_id == "curry":
+        st.session_state.workflow_step = "curry_category"
+    elif recipe_id == "cook_rice":
+        st.session_state.workflow_step = "rice_category"
+    else:
+        init_ingredient_keys(recipe_id)
+        st.session_state.workflow_step = "ingredients"
 
 
 # ── Dashboard ──
@@ -196,9 +297,212 @@ def render_dashboard() -> None:
                 st.rerun()
 
 
+# ── Biryani: Veg / Non-Veg ──
+def render_biryani_category_step() -> None:
+    render_header()
+    st.markdown(
+        '<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        "Select biryani type</p>",
+        unsafe_allow_html=True,
+    )
+
+    cols = st.columns(2)
+    for col, category in zip(cols, BIRYANI_CATEGORIES.values()):
+        with col:
+            render_recipe_card(category)
+            if st.button(
+                "Select",
+                key=f"biryani_cat_{category['id']}",
+                type="primary",
+                use_container_width=True,
+            ):
+                st.session_state.selected_biryani_category = category["id"]
+                st.session_state.selected_biryani_id = None
+                st.session_state.selected_batch = None
+                st.session_state.workflow_step = "biryani_list"
+                st.rerun()
+
+    if st.button("← Back to Home", key="biryani_cat_back", use_container_width=True):
+        reset_workflow()
+        st.rerun()
+
+
+# ── Biryani list ──
+def render_biryani_list_step() -> None:
+    category_id = st.session_state.selected_biryani_category
+    category = BIRYANI_CATEGORIES.get(category_id)
+    if not category:
+        st.session_state.workflow_step = "biryani_category"
+        st.rerun()
+
+    render_header()
+    st.markdown(
+        f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        f"{category['emoji']} {category['title']} — Select a biryani</p>",
+        unsafe_allow_html=True,
+    )
+
+    items = list(category["items"].values())
+    cols = st.columns(min(3, len(items)))
+    for index, item in enumerate(items):
+        with cols[index % len(cols)]:
+            render_recipe_card(item)
+            if st.button(
+                "Start",
+                key=f"biryani_item_{item['id']}",
+                type="primary",
+                use_container_width=True,
+            ):
+                st.session_state.selected_biryani_id = item["id"]
+                st.session_state.selected_batch = item.get("default_batch")
+                clear_ingredient_keys()
+                init_ingredient_keys("chicken_biryani")
+                st.session_state.workflow_step = "ingredients"
+                st.rerun()
+
+    if st.button("← Back", key="biryani_list_back", use_container_width=True):
+        st.session_state.selected_biryani_id = None
+        st.session_state.workflow_step = "biryani_category"
+        st.rerun()
+
+
+# ── Rice: Rice / Pulao ──
+def render_rice_category_step() -> None:
+    render_header()
+    st.markdown(
+        '<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        "Select rice type</p>",
+        unsafe_allow_html=True,
+    )
+
+    cols = st.columns(2)
+    for col, category in zip(cols, RICE_CATEGORIES.values()):
+        with col:
+            render_recipe_card(category)
+            if st.button(
+                "Select",
+                key=f"rice_cat_{category['id']}",
+                type="primary",
+                use_container_width=True,
+            ):
+                st.session_state.selected_rice_category = category["id"]
+                st.session_state.selected_rice_id = None
+                st.session_state.workflow_step = "rice_list"
+                st.rerun()
+
+    if st.button("← Back to Home", key="rice_cat_back", use_container_width=True):
+        reset_workflow()
+        st.rerun()
+
+
+# ── Rice / Pulao list ──
+def render_rice_list_step() -> None:
+    category_id = st.session_state.selected_rice_category
+    category = RICE_CATEGORIES.get(category_id)
+    if not category:
+        st.session_state.workflow_step = "rice_category"
+        st.rerun()
+
+    render_header()
+    st.markdown(
+        f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        f"{category['emoji']} {category['title']} — Select an option</p>",
+        unsafe_allow_html=True,
+    )
+
+    items = list(category["items"].values())
+    cols = st.columns(min(3, len(items)))
+    for index, item in enumerate(items):
+        with cols[index % len(cols)]:
+            render_recipe_card(item)
+            if st.button(
+                "Start",
+                key=f"rice_item_{item['id']}",
+                type="primary",
+                use_container_width=True,
+            ):
+                st.session_state.selected_rice_id = item["id"]
+                clear_ingredient_keys()
+                init_ingredient_keys("cook_rice")
+                st.session_state.workflow_step = "ingredients"
+                st.rerun()
+
+    if st.button("← Back", key="rice_list_back", use_container_width=True):
+        st.session_state.selected_rice_id = None
+        st.session_state.workflow_step = "rice_category"
+        st.rerun()
+
+
+# ── Curry: Veg / Non-Veg ──
+def render_curry_category_step() -> None:
+    render_header()
+    st.markdown(
+        '<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        "Select curry type</p>",
+        unsafe_allow_html=True,
+    )
+
+    cols = st.columns(2)
+    for col, category in zip(cols, CURRY_CATEGORIES.values()):
+        with col:
+            render_recipe_card(category)
+            if st.button(
+                "Select",
+                key=f"curry_cat_{category['id']}",
+                type="primary",
+                use_container_width=True,
+            ):
+                st.session_state.selected_curry_category = category["id"]
+                st.session_state.selected_curry_id = None
+                st.session_state.workflow_step = "curry_list"
+                st.rerun()
+
+    if st.button("← Back to Home", key="curry_cat_back", use_container_width=True):
+        reset_workflow()
+        st.rerun()
+
+
+# ── Curry list (5 options) ──
+def render_curry_list_step() -> None:
+    category_id = st.session_state.selected_curry_category
+    category = CURRY_CATEGORIES.get(category_id)
+    if not category:
+        st.session_state.workflow_step = "curry_category"
+        st.rerun()
+
+    render_header()
+    st.markdown(
+        f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        f"{category['emoji']} {category['title']} — Select a curry</p>",
+        unsafe_allow_html=True,
+    )
+
+    curries = list(category["items"].values())
+    cols = st.columns(min(3, len(curries)))
+    for index, curry in enumerate(curries):
+        with cols[index % len(cols)]:
+            render_recipe_card(curry)
+            if st.button(
+                "Start",
+                key=f"curry_item_{curry['id']}",
+                type="primary",
+                use_container_width=True,
+            ):
+                st.session_state.selected_curry_id = curry["id"]
+                clear_ingredient_keys()
+                init_ingredient_keys("curry")
+                st.session_state.workflow_step = "ingredients"
+                st.rerun()
+
+    if st.button("← Back", key="curry_list_back", use_container_width=True):
+        st.session_state.selected_curry_id = None
+        st.session_state.workflow_step = "curry_category"
+        st.rerun()
+
+
 # ── Step 1: Ingredients ──
 def render_ingredients_step() -> None:
-    recipe = RECIPES[st.session_state.selected_recipe]
+    recipe = get_display_recipe()
     render_header()
     render_step_indicator(0)
 
@@ -215,9 +519,10 @@ def render_ingredients_step() -> None:
     )
 
     recipe_id = st.session_state.selected_recipe
-    if recipe_id == "chicken_biryani":
-        batch_options = recipe.get("batch_options", ["5kg", "10kg"])
-        current_batch = st.session_state.get("selected_batch", recipe.get("default_batch", "5kg"))
+    display = get_display_recipe()
+    if recipe_id == "chicken_biryani" and display.get("batch_options"):
+        batch_options = display["batch_options"]
+        current_batch = st.session_state.get("selected_batch") or display.get("default_batch", "5kg")
         chosen_batch = st.radio(
             "Select batch size",
             options=batch_options,
@@ -273,13 +578,27 @@ def render_ingredients_step() -> None:
     col_back, col_next = st.columns([1, 1])
     with col_back:
         if st.button("← Back", use_container_width=True):
-            reset_workflow()
+            if recipe_id == "curry":
+                clear_ingredient_keys()
+                st.session_state.selected_curry_id = None
+                st.session_state.workflow_step = "curry_list"
+            elif recipe_id == "cook_rice":
+                clear_ingredient_keys()
+                st.session_state.selected_rice_id = None
+                st.session_state.workflow_step = "rice_list"
+            elif recipe_id == "chicken_biryani":
+                clear_ingredient_keys()
+                st.session_state.selected_biryani_id = None
+                st.session_state.selected_batch = None
+                st.session_state.workflow_step = "biryani_list"
+            else:
+                reset_workflow()
             st.rerun()
     with col_next:
         if st.button(
             "Next →",
             type="primary",
-            disabled=not all_added,
+            disabled=not all_added or total == 0,
             use_container_width=True,
         ):
             st.session_state.workflow_step = "cooking"
@@ -290,7 +609,7 @@ def render_ingredients_step() -> None:
 
 # ── Step 2: Cooking ──
 def render_cooking_step() -> None:
-    recipe = RECIPES[st.session_state.selected_recipe]
+    recipe = get_display_recipe()
     render_header()
     render_step_indicator(1)
 
@@ -308,10 +627,23 @@ def render_cooking_step() -> None:
         unsafe_allow_html=True,
     )
 
-    if recipe.get("machine_enabled", False):
-        run_cooking_with_service(recipe, get_cooking_service())
+    base_recipe = RECIPES[st.session_state.selected_recipe]
+    selected_item_id = st.session_state.get("selected_biryani_id")
+    machine_items = base_recipe.get("machine_item_ids", [])
+    use_machine = base_recipe.get("machine_enabled", False) and (
+        not machine_items or selected_item_id in machine_items
+    )
+
+    if use_machine:
+        run_cooking_with_service(base_recipe, get_cooking_service())
     else:
-        run_cooking_simulation(recipe)
+        # Use display recipe for UI stages, keep cook timing from base recipe
+        sim_recipe = {
+            **recipe,
+            "total_cook_seconds": base_recipe.get("total_cook_seconds", 22),
+            "stages": base_recipe.get("stages", recipe.get("stages", [])),
+        }
+        run_cooking_simulation(sim_recipe)
 
 
 def render_manual_step() -> None:
@@ -459,7 +791,7 @@ def render_manual_step() -> None:
 
 # ── Step 3: Completion ──
 def render_completion_step() -> None:
-    recipe = RECIPES[st.session_state.selected_recipe]
+    recipe = get_display_recipe()
     cook_time = st.session_state.total_cook_time
     render_header()
     render_step_indicator(2)
@@ -482,7 +814,24 @@ def render_completion_step() -> None:
     col_again, col_home = st.columns(2)
     with col_again:
         if st.button("🔄 Cook Again", type="primary", use_container_width=True):
-            start_recipe(st.session_state.selected_recipe)
+            recipe_id = st.session_state.selected_recipe
+            if recipe_id == "curry" and st.session_state.get("selected_curry_id"):
+                clear_ingredient_keys()
+                init_ingredient_keys("curry")
+                st.session_state.workflow_step = "ingredients"
+                st.session_state.cooking_started = False
+            elif recipe_id == "cook_rice" and st.session_state.get("selected_rice_id"):
+                clear_ingredient_keys()
+                init_ingredient_keys("cook_rice")
+                st.session_state.workflow_step = "ingredients"
+                st.session_state.cooking_started = False
+            elif recipe_id == "chicken_biryani" and st.session_state.get("selected_biryani_id"):
+                clear_ingredient_keys()
+                init_ingredient_keys("chicken_biryani")
+                st.session_state.workflow_step = "ingredients"
+                st.session_state.cooking_started = False
+            else:
+                start_recipe(recipe_id)
             st.rerun()
     with col_home:
         if st.button("🏠 Back to Home", use_container_width=True):
@@ -531,6 +880,18 @@ def main() -> None:
         render_welcome_step()
     elif step == "dashboard":
         render_dashboard()
+    elif step == "rice_category":
+        render_rice_category_step()
+    elif step == "rice_list":
+        render_rice_list_step()
+    elif step == "biryani_category":
+        render_biryani_category_step()
+    elif step == "biryani_list":
+        render_biryani_list_step()
+    elif step == "curry_category":
+        render_curry_category_step()
+    elif step == "curry_list":
+        render_curry_list_step()
     elif step == "ingredients":
         render_ingredients_step()
     elif step == "cooking":
