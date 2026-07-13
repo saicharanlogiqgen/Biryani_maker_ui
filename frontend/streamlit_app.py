@@ -34,6 +34,16 @@ from frontend.components.ui_helpers import (
     SPLASH_HOLD_SECONDS,
     SPLASH_FADE_SECONDS,
 )
+from frontend.i18n import (
+    DEFAULT_LANGUAGE,
+    SUPPORTED_LANGUAGES,
+    localize_card,
+    localize_stages,
+    set_language,
+    stage_family_for_recipe,
+    t,
+    tr_ingredient,
+)
 from backend.services.cooking_service import get_shared_cooking_service
 
 # ── Page config ──
@@ -63,6 +73,7 @@ def init_session_state() -> None:
         "cook_start_time": None,
         "total_cook_time": 0,
         "cooking_started": False,
+        "language": DEFAULT_LANGUAGE,
     }
     for key, val in defaults.items():
         if key not in st.session_state:
@@ -142,13 +153,14 @@ def get_display_recipe() -> dict:
     """Recipe used for titles/stages during cooking and completion."""
     recipe_id = st.session_state.selected_recipe
     recipe = RECIPES[recipe_id]
+    display = recipe
     if recipe_id == "curry":
         curry = get_selected_curry(
             st.session_state.get("selected_curry_category"),
             st.session_state.get("selected_curry_id"),
         )
         if curry:
-            return {
+            display = {
                 **recipe,
                 "id": curry["id"],
                 "title": curry["title"],
@@ -156,13 +168,13 @@ def get_display_recipe() -> dict:
                 "description": curry["description"],
                 "ingredients": curry["ingredients"],
             }
-    if recipe_id == "cook_rice":
+    elif recipe_id == "cook_rice":
         item = get_selected_rice_item(
             st.session_state.get("selected_rice_category"),
             st.session_state.get("selected_rice_id"),
         )
         if item:
-            return {
+            display = {
                 **recipe,
                 "id": item["id"],
                 "title": item["title"],
@@ -170,13 +182,13 @@ def get_display_recipe() -> dict:
                 "description": item["description"],
                 "ingredients": item["ingredients"],
             }
-    if recipe_id == "chicken_biryani":
+    elif recipe_id == "chicken_biryani":
         biryani = get_selected_biryani(
             st.session_state.get("selected_biryani_category"),
             st.session_state.get("selected_biryani_id"),
         )
         if biryani:
-            return {
+            display = {
                 **recipe,
                 "id": biryani["id"],
                 "title": biryani["title"],
@@ -186,7 +198,10 @@ def get_display_recipe() -> dict:
                 "batch_options": biryani.get("batch_options"),
                 "default_batch": biryani.get("default_batch"),
             }
-    return recipe
+    localized = localize_card(display)
+    family = stage_family_for_recipe(recipe_id)
+    localized["stages"] = localize_stages(display.get("stages", recipe.get("stages", [])), family)
+    return localized
 
 
 def reset_workflow() -> None:
@@ -265,19 +280,30 @@ def start_recipe(recipe_id: str) -> None:
 def render_dashboard() -> None:
     render_header()
     st.markdown(
-        '<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
-        "Select a recipe to begin cooking</p>",
+        f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        f"{t('select_recipe_prompt')}</p>",
         unsafe_allow_html=True,
     )
 
-    recipe_list = list(RECIPES.values()) + [
-        {
-            "id": "manual_mode",
-            "title": "Manual Mode",
-            "emoji": "🎮",
-            "icon_color": "#ff8a00",
-            "description": "Direct device control with manual inputs",
-        }
+    recipe_list = [localize_card(r) for r in RECIPES.values()] + [
+        localize_card(
+            {
+                "id": "manual_mode",
+                "title": "Manual Mode",
+                "emoji": "🎮",
+                "icon_color": "#ff8a00",
+                "description": "Direct device control with manual inputs",
+            }
+        ),
+        localize_card(
+            {
+                "id": "settings",
+                "title": "Settings",
+                "emoji": "⚙️",
+                "icon_color": "#ffb300",
+                "description": "Language and app preferences",
+            }
+        ),
     ]
     cols = st.columns(len(recipe_list))
 
@@ -285,33 +311,68 @@ def render_dashboard() -> None:
         with col:
             render_recipe_card(recipe)
             if st.button(
-                "Start",
+                t("btn_start"),
                 key=f"start_{recipe['id']}",
                 type="primary",
                 use_container_width=True,
             ):
                 if recipe["id"] == "manual_mode":
                     st.session_state.workflow_step = "manual"
+                elif recipe["id"] == "settings":
+                    st.session_state.workflow_step = "settings"
                 else:
                     start_recipe(recipe["id"])
                 st.rerun()
+
+
+# ── Settings ──
+def render_settings_step() -> None:
+    render_header()
+    st.markdown(
+        f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        f"{t('settings_title')}</p>",
+        unsafe_allow_html=True,
+    )
+
+    lang_options = list(SUPPORTED_LANGUAGES.keys())
+    current = st.session_state.get("language", DEFAULT_LANGUAGE)
+    if current not in lang_options:
+        current = DEFAULT_LANGUAGE
+
+    chosen = st.radio(
+        t("settings_language"),
+        options=lang_options,
+        index=lang_options.index(current),
+        format_func=lambda code: t(f"lang_{code}"),
+        horizontal=True,
+        key="language_selector",
+        help=t("settings_language_help"),
+    )
+    if chosen != current:
+        set_language(chosen)
+        st.success(t("settings_saved"))
+        st.rerun()
+
+    if st.button(t("btn_back_home"), key="settings_back", use_container_width=True):
+        reset_workflow()
+        st.rerun()
 
 
 # ── Biryani: Veg / Non-Veg ──
 def render_biryani_category_step() -> None:
     render_header()
     st.markdown(
-        '<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
-        "Select biryani type</p>",
+        f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        f"{t('select_biryani_type')}</p>",
         unsafe_allow_html=True,
     )
 
     cols = st.columns(2)
     for col, category in zip(cols, BIRYANI_CATEGORIES.values()):
         with col:
-            render_recipe_card(category)
+            render_recipe_card(localize_card(category))
             if st.button(
-                "Select",
+                t("btn_select"),
                 key=f"biryani_cat_{category['id']}",
                 type="primary",
                 use_container_width=True,
@@ -322,7 +383,7 @@ def render_biryani_category_step() -> None:
                 st.session_state.workflow_step = "biryani_list"
                 st.rerun()
 
-    if st.button("← Back to Home", key="biryani_cat_back", use_container_width=True):
+    if st.button(t("btn_back_home"), key="biryani_cat_back", use_container_width=True):
         reset_workflow()
         st.rerun()
 
@@ -335,10 +396,11 @@ def render_biryani_list_step() -> None:
         st.session_state.workflow_step = "biryani_category"
         st.rerun()
 
+    cat = localize_card(category)
     render_header()
     st.markdown(
         f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
-        f"{category['emoji']} {category['title']} — Select a biryani</p>",
+        f"{t('select_a_biryani', emoji=cat['emoji'], category=cat['title'])}</p>",
         unsafe_allow_html=True,
     )
 
@@ -346,9 +408,9 @@ def render_biryani_list_step() -> None:
     cols = st.columns(min(3, len(items)))
     for index, item in enumerate(items):
         with cols[index % len(cols)]:
-            render_recipe_card(item)
+            render_recipe_card(localize_card(item))
             if st.button(
-                "Start",
+                t("btn_start"),
                 key=f"biryani_item_{item['id']}",
                 type="primary",
                 use_container_width=True,
@@ -360,7 +422,7 @@ def render_biryani_list_step() -> None:
                 st.session_state.workflow_step = "ingredients"
                 st.rerun()
 
-    if st.button("← Back", key="biryani_list_back", use_container_width=True):
+    if st.button(t("btn_back"), key="biryani_list_back", use_container_width=True):
         st.session_state.selected_biryani_id = None
         st.session_state.workflow_step = "biryani_category"
         st.rerun()
@@ -370,17 +432,17 @@ def render_biryani_list_step() -> None:
 def render_rice_category_step() -> None:
     render_header()
     st.markdown(
-        '<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
-        "Select rice type</p>",
+        f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        f"{t('select_rice_type')}</p>",
         unsafe_allow_html=True,
     )
 
     cols = st.columns(2)
     for col, category in zip(cols, RICE_CATEGORIES.values()):
         with col:
-            render_recipe_card(category)
+            render_recipe_card(localize_card(category))
             if st.button(
-                "Select",
+                t("btn_select"),
                 key=f"rice_cat_{category['id']}",
                 type="primary",
                 use_container_width=True,
@@ -390,7 +452,7 @@ def render_rice_category_step() -> None:
                 st.session_state.workflow_step = "rice_list"
                 st.rerun()
 
-    if st.button("← Back to Home", key="rice_cat_back", use_container_width=True):
+    if st.button(t("btn_back_home"), key="rice_cat_back", use_container_width=True):
         reset_workflow()
         st.rerun()
 
@@ -403,10 +465,11 @@ def render_rice_list_step() -> None:
         st.session_state.workflow_step = "rice_category"
         st.rerun()
 
+    cat = localize_card(category)
     render_header()
     st.markdown(
         f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
-        f"{category['emoji']} {category['title']} — Select an option</p>",
+        f"{t('select_an_option', emoji=cat['emoji'], category=cat['title'])}</p>",
         unsafe_allow_html=True,
     )
 
@@ -414,9 +477,9 @@ def render_rice_list_step() -> None:
     cols = st.columns(min(3, len(items)))
     for index, item in enumerate(items):
         with cols[index % len(cols)]:
-            render_recipe_card(item)
+            render_recipe_card(localize_card(item))
             if st.button(
-                "Start",
+                t("btn_start"),
                 key=f"rice_item_{item['id']}",
                 type="primary",
                 use_container_width=True,
@@ -427,7 +490,7 @@ def render_rice_list_step() -> None:
                 st.session_state.workflow_step = "ingredients"
                 st.rerun()
 
-    if st.button("← Back", key="rice_list_back", use_container_width=True):
+    if st.button(t("btn_back"), key="rice_list_back", use_container_width=True):
         st.session_state.selected_rice_id = None
         st.session_state.workflow_step = "rice_category"
         st.rerun()
@@ -437,17 +500,17 @@ def render_rice_list_step() -> None:
 def render_curry_category_step() -> None:
     render_header()
     st.markdown(
-        '<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
-        "Select curry type</p>",
+        f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        f"{t('select_curry_type')}</p>",
         unsafe_allow_html=True,
     )
 
     cols = st.columns(2)
     for col, category in zip(cols, CURRY_CATEGORIES.values()):
         with col:
-            render_recipe_card(category)
+            render_recipe_card(localize_card(category))
             if st.button(
-                "Select",
+                t("btn_select"),
                 key=f"curry_cat_{category['id']}",
                 type="primary",
                 use_container_width=True,
@@ -457,7 +520,7 @@ def render_curry_category_step() -> None:
                 st.session_state.workflow_step = "curry_list"
                 st.rerun()
 
-    if st.button("← Back to Home", key="curry_cat_back", use_container_width=True):
+    if st.button(t("btn_back_home"), key="curry_cat_back", use_container_width=True):
         reset_workflow()
         st.rerun()
 
@@ -470,10 +533,11 @@ def render_curry_list_step() -> None:
         st.session_state.workflow_step = "curry_category"
         st.rerun()
 
+    cat = localize_card(category)
     render_header()
     st.markdown(
         f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
-        f"{category['emoji']} {category['title']} — Select a curry</p>",
+        f"{t('select_a_curry', emoji=cat['emoji'], category=cat['title'])}</p>",
         unsafe_allow_html=True,
     )
 
@@ -481,9 +545,9 @@ def render_curry_list_step() -> None:
     cols = st.columns(min(3, len(curries)))
     for index, curry in enumerate(curries):
         with cols[index % len(cols)]:
-            render_recipe_card(curry)
+            render_recipe_card(localize_card(curry))
             if st.button(
-                "Start",
+                t("btn_start"),
                 key=f"curry_item_{curry['id']}",
                 type="primary",
                 use_container_width=True,
@@ -494,7 +558,7 @@ def render_curry_list_step() -> None:
                 st.session_state.workflow_step = "ingredients"
                 st.rerun()
 
-    if st.button("← Back", key="curry_list_back", use_container_width=True):
+    if st.button(t("btn_back"), key="curry_list_back", use_container_width=True):
         st.session_state.selected_curry_id = None
         st.session_state.workflow_step = "curry_category"
         st.rerun()
@@ -509,9 +573,9 @@ def render_ingredients_step() -> None:
     st.markdown(
         f"""
         <div class="ingredients-panel">
-            <div class="panel-title">Step 1: Required Ingredients</div>
+            <div class="panel-title">{t("ingredients_title")}</div>
             <div class="panel-subtitle">
-                {recipe['emoji']} {recipe['title']} — Mark each ingredient as added
+                {t("ingredients_subtitle", emoji=recipe["emoji"], title=recipe["title"])}
             </div>
         </div>
         """,
@@ -524,7 +588,7 @@ def render_ingredients_step() -> None:
         batch_options = display["batch_options"]
         current_batch = st.session_state.get("selected_batch") or display.get("default_batch", "5kg")
         chosen_batch = st.radio(
-            "Select batch size",
+            t("select_batch_size"),
             options=batch_options,
             index=batch_options.index(current_batch) if current_batch in batch_options else 0,
             horizontal=True,
@@ -541,7 +605,7 @@ def render_ingredients_step() -> None:
 
     ensure_ingredient_keys(recipe_id)
     for i, ingredient in enumerate(ingredients):
-        name = ingredient["name"]
+        name = tr_ingredient(ingredient["name"])
         qty = ingredient["quantity"]
         cb_key = f"ing_{recipe_id}_{i}"
 
@@ -571,13 +635,13 @@ def render_ingredients_step() -> None:
 
     st.markdown(
         f'<p style="color: #c4a882; font-size: 0.85rem; margin: 1rem 0;">'
-        f"{added_count} of {total} ingredients added</p>",
+        f"{t('ingredients_count', added=added_count, total=total)}</p>",
         unsafe_allow_html=True,
     )
 
     col_back, col_next = st.columns([1, 1])
     with col_back:
-        if st.button("← Back", use_container_width=True):
+        if st.button(t("btn_back"), use_container_width=True):
             if recipe_id == "curry":
                 clear_ingredient_keys()
                 st.session_state.selected_curry_id = None
@@ -596,7 +660,7 @@ def render_ingredients_step() -> None:
             st.rerun()
     with col_next:
         if st.button(
-            "Next →",
+            t("btn_next"),
             type="primary",
             disabled=not all_added or total == 0,
             use_container_width=True,
@@ -617,7 +681,7 @@ def render_cooking_step() -> None:
         f"""
         <div style="margin-bottom: 1rem;">
             <span style="color: #ff8a00; font-weight: 600; font-size: 1.1rem;">
-                Step 2: Cooking Process
+                {t("cooking_title")}
             </span>
             <span style="color: #c4a882; font-size: 0.9rem;">
                 &nbsp;— {recipe['emoji']} {recipe['title']}
@@ -634,14 +698,17 @@ def render_cooking_step() -> None:
         not machine_items or selected_item_id in machine_items
     )
 
+    family = stage_family_for_recipe(st.session_state.selected_recipe)
+    localized_stages = localize_stages(base_recipe.get("stages", []), family)
+
     if use_machine:
-        run_cooking_with_service(base_recipe, get_cooking_service())
+        machine_recipe = {**base_recipe, "stages": localized_stages}
+        run_cooking_with_service(machine_recipe, get_cooking_service())
     else:
-        # Use display recipe for UI stages, keep cook timing from base recipe
         sim_recipe = {
             **recipe,
             "total_cook_seconds": base_recipe.get("total_cook_seconds", 22),
-            "stages": base_recipe.get("stages", recipe.get("stages", [])),
+            "stages": localized_stages,
         }
         run_cooking_simulation(sim_recipe)
 
@@ -649,7 +716,7 @@ def render_cooking_step() -> None:
 def render_manual_step() -> None:
     render_header()
     st.markdown(
-        '<p style="color:#c4a882; margin-bottom: 1rem;">Manual Mode — Control devices using direct inputs</p>',
+        f'<p style="color:#c4a882; margin-bottom: 1rem;">{t("manual.subtitle")}</p>',
         unsafe_allow_html=True,
     )
 
@@ -658,25 +725,25 @@ def render_manual_step() -> None:
     is_mock = service.get_status().get("is_mock", False)
 
     if is_mock:
-        st.info("Running in mock hardware mode.")
+        st.info(t("manual.mock_info"))
 
     if service.is_running():
-        st.warning("A recipe is currently cooking. Stop it before manual control.")
+        st.warning(t("manual.cooking_warning"))
         c1, c2 = st.columns(2)
         with c1:
-            if st.button("🛑 Emergency Stop", type="primary", use_container_width=True):
+            if st.button(t("btn_emergency_stop"), type="primary", use_container_width=True):
                 service.emergency_stop()
                 st.rerun()
         with c2:
-            if st.button("← Back to Home", use_container_width=True):
+            if st.button(t("btn_back_home"), use_container_width=True):
                 reset_workflow()
                 st.rerun()
         return
 
-    render_manual_title("Mixer Motor", "mixer_motor")
+    render_manual_title(t("manual.mixer_motor"), "mixer_motor")
     c1, c2 = st.columns(2)
     with c1:
-        if st.button("Mixer ON", key="manual_mixer_on", use_container_width=True):
+        if st.button(t("manual.mixer_on"), key="manual_mixer_on", use_container_width=True):
             machine.stop_main_devices()
             machine.mixer_motor.on()
             set_manual_state("mixer_motor", "ON")
@@ -684,14 +751,14 @@ def render_manual_step() -> None:
             set_manual_state("rice_bowl", "STOP")
             set_manual_state("mixer_hydraulic", "STOP")
     with c2:
-        if st.button("Mixer OFF", key="manual_mixer_off", use_container_width=True):
+        if st.button(t("manual.mixer_off"), key="manual_mixer_off", use_container_width=True):
             machine.mixer_motor.off()
             set_manual_state("mixer_motor", "OFF")
 
-    render_manual_title("Position Motor", "position_motor")
+    render_manual_title(t("manual.position_motor"), "position_motor")
     c3, c4 = st.columns(2)
     with c3:
-        if st.button("Forward 180°", key="manual_pos_fwd", use_container_width=True):
+        if st.button(t("manual.forward_180"), key="manual_pos_fwd", use_container_width=True):
             machine.stop_main_devices()
             machine.position_motor.forward()
             set_manual_state("position_motor", "FORWARD")
@@ -700,7 +767,7 @@ def render_manual_step() -> None:
             set_manual_state("mixer_hydraulic", "STOP")
             set_manual_state("position_motor", "STOP")
     with c4:
-        if st.button("Backward 180°", key="manual_pos_bwd", use_container_width=True):
+        if st.button(t("manual.backward_180"), key="manual_pos_bwd", use_container_width=True):
             machine.stop_main_devices()
             machine.position_motor.backward()
             set_manual_state("position_motor", "BACKWARD")
@@ -709,10 +776,10 @@ def render_manual_step() -> None:
             set_manual_state("mixer_hydraulic", "STOP")
             set_manual_state("position_motor", "STOP")
 
-    render_manual_title("Rice Bowl Hydraulic", "rice_bowl")
+    render_manual_title(t("manual.rice_bowl"), "rice_bowl")
     c5, c6, c7 = st.columns(3)
     with c5:
-        if st.button("Rice Bowl DOWN", key="manual_rice_down", use_container_width=True):
+        if st.button(t("manual.rice_down"), key="manual_rice_down", use_container_width=True):
             machine.stop_main_devices()
             machine.rice_bowl.down()
             set_manual_state("rice_bowl", "DOWN")
@@ -720,7 +787,7 @@ def render_manual_step() -> None:
             set_manual_state("position_motor", "STOP")
             set_manual_state("mixer_hydraulic", "STOP")
     with c6:
-        if st.button("Rice Bowl UP", key="manual_rice_up", use_container_width=True):
+        if st.button(t("manual.rice_up"), key="manual_rice_up", use_container_width=True):
             machine.stop_main_devices()
             machine.rice_bowl.up()
             set_manual_state("rice_bowl", "UP")
@@ -728,14 +795,14 @@ def render_manual_step() -> None:
             set_manual_state("position_motor", "STOP")
             set_manual_state("mixer_hydraulic", "STOP")
     with c7:
-        if st.button("Rice Bowl STOP", key="manual_rice_stop", use_container_width=True):
+        if st.button(t("manual.rice_stop"), key="manual_rice_stop", use_container_width=True):
             machine.rice_bowl.stop()
             set_manual_state("rice_bowl", "STOP")
 
-    render_manual_title("Mixer Hydraulic", "mixer_hydraulic")
+    render_manual_title(t("manual.mixer_hydraulic"), "mixer_hydraulic")
     c8, c9, c10 = st.columns(3)
     with c8:
-        if st.button("Mixer DOWN", key="manual_mix_down", use_container_width=True):
+        if st.button(t("manual.mix_down"), key="manual_mix_down", use_container_width=True):
             machine.stop_main_devices()
             machine.mixer_hydraulic.down()
             set_manual_state("mixer_hydraulic", "DOWN")
@@ -743,7 +810,7 @@ def render_manual_step() -> None:
             set_manual_state("position_motor", "STOP")
             set_manual_state("rice_bowl", "STOP")
     with c9:
-        if st.button("Mixer UP", key="manual_mix_up", use_container_width=True):
+        if st.button(t("manual.mix_up"), key="manual_mix_up", use_container_width=True):
             machine.stop_main_devices()
             machine.mixer_hydraulic.up()
             set_manual_state("mixer_hydraulic", "UP")
@@ -751,29 +818,29 @@ def render_manual_step() -> None:
             set_manual_state("position_motor", "STOP")
             set_manual_state("rice_bowl", "STOP")
     with c10:
-        if st.button("Mixer STOP", key="manual_mix_stop", use_container_width=True):
+        if st.button(t("manual.mix_stop"), key="manual_mix_stop", use_container_width=True):
             machine.mixer_hydraulic.stop()
             set_manual_state("mixer_hydraulic", "STOP")
 
-    render_manual_title("Electronic Valve", "electronic_valve")
+    render_manual_title(t("manual.electronic_valve"), "electronic_valve")
     c11, c12, c13 = st.columns(3)
     with c11:
-        if st.button("Valve OPEN", key="manual_valve_open", use_container_width=True):
+        if st.button(t("manual.valve_open"), key="manual_valve_open", use_container_width=True):
             machine.electronic_valve.open()
             set_manual_state("electronic_valve", "OPEN")
     with c12:
-        if st.button("Valve CLOSE", key="manual_valve_close", use_container_width=True):
+        if st.button(t("manual.valve_close"), key="manual_valve_close", use_container_width=True):
             machine.electronic_valve.close()
             set_manual_state("electronic_valve", "CLOSE")
     with c13:
-        if st.button("Valve STOP", key="manual_valve_stop", use_container_width=True):
+        if st.button(t("manual.valve_stop"), key="manual_valve_stop", use_container_width=True):
             machine.electronic_valve.stop()
             set_manual_state("electronic_valve", "STOP")
 
     st.markdown("---")
     c14, c15 = st.columns(2)
     with c14:
-        if st.button("🛑 STOP EVERYTHING", key="manual_stop_all", type="primary", use_container_width=True):
+        if st.button(t("manual.stop_everything"), key="manual_stop_all", type="primary", use_container_width=True):
             service.emergency_stop()
             st.session_state.manual_device_state = {
                 "mixer_motor": "OFF",
@@ -782,9 +849,9 @@ def render_manual_step() -> None:
                 "mixer_hydraulic": "STOP",
                 "electronic_valve": "STOP",
             }
-            st.success("All devices stopped.")
+            st.success(t("manual.all_stopped"))
     with c15:
-        if st.button("🏠 Back to Home", key="manual_back_home", use_container_width=True):
+        if st.button(t("btn_home"), key="manual_back_home", use_container_width=True):
             reset_workflow()
             st.rerun()
 
@@ -800,9 +867,9 @@ def render_completion_step() -> None:
         f"""
         <div class="completion-panel">
             <div class="success-checkmark">✓</div>
-            <div class="success-title">Your {recipe['title']} is Ready!</div>
+            <div class="success-title">{t("ready_title", title=recipe["title"])}</div>
             <div class="success-time">
-                {recipe['emoji']} Total cooking time: {format_time(cook_time)}
+                {t("total_cook_time", emoji=recipe["emoji"], time=format_time(cook_time))}
             </div>
         </div>
         """,
@@ -813,7 +880,7 @@ def render_completion_step() -> None:
 
     col_again, col_home = st.columns(2)
     with col_again:
-        if st.button("🔄 Cook Again", type="primary", use_container_width=True):
+        if st.button(t("btn_cook_again"), type="primary", use_container_width=True):
             recipe_id = st.session_state.selected_recipe
             if recipe_id == "curry" and st.session_state.get("selected_curry_id"):
                 clear_ingredient_keys()
@@ -834,7 +901,7 @@ def render_completion_step() -> None:
                 start_recipe(recipe_id)
             st.rerun()
     with col_home:
-        if st.button("🏠 Back to Home", use_container_width=True):
+        if st.button(t("btn_home"), use_container_width=True):
             reset_workflow()
             st.rerun()
 
@@ -898,6 +965,8 @@ def main() -> None:
         render_cooking_step()
     elif step == "manual":
         render_manual_step()
+    elif step == "settings":
+        render_settings_step()
     elif step == "complete":
         render_completion_step()
 

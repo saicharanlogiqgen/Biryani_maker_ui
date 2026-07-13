@@ -75,7 +75,9 @@ def render_step_indicator(current_step: int) -> None:
     Render a 3-step workflow indicator.
     current_step: 0 = ingredients, 1 = cooking, 2 = complete
     """
-    steps = ["Ingredients", "Cooking", "Done"]
+    from frontend.i18n import t
+
+    steps = [t("step_ingredients"), t("step_cooking"), t("step_done")]
 
     parts = ['<div class="step-indicator">']
     for i, label in enumerate(steps):
