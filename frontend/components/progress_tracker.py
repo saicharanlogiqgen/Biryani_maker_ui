@@ -4,6 +4,8 @@ import time
 
 import streamlit as st
 
+from frontend.i18n import localize_stage_text, stage_family_for_recipe, t
+
 
 def get_current_stage(stages: list, progress: float) -> tuple[dict, int]:
     """Return the active stage dict and its index based on progress percentage."""
@@ -59,8 +61,8 @@ def render_cooking_progress(
                 <div class="progress-bar-fill" style="width: {progress:.0f}%;"></div>
             </div>
             <div class="progress-label">
-                <span>Progress: {progress:.0f}%</span>
-                <span>Est. remaining: {format_time(remaining_seconds)}</span>
+                <span>{t("progress_label", pct=f"{progress:.0f}")}</span>
+                <span>{t("remaining_label", time=format_time(remaining_seconds))}</span>
             </div>
             <div class="stages-timeline">{chips_html}</div>
         </div>
@@ -75,11 +77,12 @@ def run_cooking_with_service(recipe: dict, service) -> None:
     Falls back to simulation if service is None.
     """
     recipe_id = recipe["id"]
+    family = stage_family_for_recipe(recipe_id)
 
     if not st.session_state.get("cooking_started"):
         started = service.start_recipe(recipe_id)
         if not started:
-            st.error("Cooking is already in progress.")
+            st.error(t("error_cooking_in_progress"))
             return
         st.session_state.cooking_started = True
 
@@ -88,10 +91,9 @@ def run_cooking_with_service(recipe: dict, service) -> None:
     progress = status["progress"]
     remaining = status["remaining_seconds"]
 
-    stage = {
-        "title": status["stage_title"] or "Cooking",
-        "description": status["stage_description"] or status["message"],
-    }
+    raw_title = status["stage_title"] or "Cooking"
+    raw_desc = status["stage_description"] or status["message"]
+    stage_title, stage_desc = localize_stage_text(raw_title, raw_desc, family)
     stage_index = max(0, status["current_step"] - 1)
     stages = recipe["stages"]
 
@@ -102,7 +104,7 @@ def run_cooking_with_service(recipe: dict, service) -> None:
     if status.get("is_mock"):
         mock_badge = (
             '<span style="color:#c4a882;font-size:0.8rem;">'
-            " · Mock hardware (dev mode)</span>"
+            f"{t('mock_hardware')}</span>"
         )
 
     st.markdown(
@@ -111,15 +113,15 @@ def run_cooking_with_service(recipe: dict, service) -> None:
             <div class="stage-indicator-ring">
                 <span class="stage-emoji">{emoji}</span>
             </div>
-            <div class="current-stage-title">{stage['title']}{mock_badge}</div>
-            <div class="current-stage-desc">{stage['description']}</div>
+            <div class="current-stage-title">{stage_title}{mock_badge}</div>
+            <div class="current-stage-desc">{stage_desc}</div>
             <div class="progress-bar-track">
                 <div class="progress-bar-fill" style="width: {progress:.0f}%;"></div>
             </div>
             <div class="progress-label">
-                <span>Progress: {progress:.0f}%</span>
-                <span>Step {status['current_step']}/{status['total_steps']}</span>
-                <span>Est. remaining: {format_time(remaining)}</span>
+                <span>{t("progress_label", pct=f"{progress:.0f}")}</span>
+                <span>{t("step_of", current=status["current_step"], total=status["total_steps"])}</span>
+                <span>{t("remaining_label", time=format_time(remaining))}</span>
             </div>
             <div class="stages-timeline">{render_stage_chips(stages, stage_index)}</div>
         </div>
@@ -128,7 +130,7 @@ def run_cooking_with_service(recipe: dict, service) -> None:
     )
 
     if state == "running":
-        if st.button("🛑 Emergency Stop", type="primary", use_container_width=True):
+        if st.button(t("btn_emergency_stop"), type="primary", use_container_width=True):
             service.emergency_stop()
             st.session_state.cooking_started = False
             st.session_state.workflow_step = "dashboard"
@@ -143,8 +145,8 @@ def run_cooking_with_service(recipe: dict, service) -> None:
         st.rerun()
     elif state in ("stopped", "error"):
         st.session_state.cooking_started = False
-        st.error(status.get("message", "Cooking was interrupted."))
-        if st.button("← Back to Home", use_container_width=True):
+        st.error(status.get("message") or t("error_cooking_interrupted"))
+        if st.button(t("btn_back_home"), use_container_width=True):
             st.session_state.workflow_step = "dashboard"
             st.session_state.selected_recipe = None
             st.rerun()
