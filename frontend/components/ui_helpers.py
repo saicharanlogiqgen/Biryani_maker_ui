@@ -52,22 +52,48 @@ def render_splash_screen(*, fading: bool = False) -> None:
     )
 
 
-def render_header() -> None:
+def render_header(*, show_settings: bool = True) -> None:
+    from frontend.i18n import t
+
     now = datetime.now().strftime("%a %H:%M:%S")
     mascot_uri = asset_uri(MASCOT_PATH)
     wordmark_uri = asset_uri(WORDMARK_PATH)
-    st.markdown(
-        f"""
-        <div class="app-header">
-            <div class="brand-lockup">
-                <img class="brand-mascot" src="{mascot_uri}" alt="Dumchef" />
-                <img class="brand-wordmark" src="{wordmark_uri}" alt="Dumchef" />
+    on_settings = st.session_state.get("workflow_step") == "settings"
+
+    brand_col, actions_col = st.columns([5.5, 2.2], vertical_alignment="center")
+    with brand_col:
+        st.markdown(
+            f"""
+            <div class="app-header-brand">
+                <div class="brand-lockup">
+                    <img class="brand-mascot" src="{mascot_uri}" alt="Dumchef" />
+                    <img class="brand-wordmark" src="{wordmark_uri}" alt="Dumchef" />
+                </div>
             </div>
-            <div class="app-clock">{now}</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+            """,
+            unsafe_allow_html=True,
+        )
+    with actions_col:
+        btn_col, clock_col = st.columns([1.15, 0.95], vertical_alignment="center")
+        with btn_col:
+            if show_settings and not on_settings:
+                if st.button(
+                    f"⚙️ {t('btn_settings')}",
+                    key="header_settings_btn",
+                    use_container_width=True,
+                ):
+                    st.session_state.settings_return_step = st.session_state.get(
+                        "workflow_step", "dashboard"
+                    )
+                    st.session_state.workflow_step = "settings"
+                    st.rerun()
+        with clock_col:
+            st.markdown(
+                f'<div class="app-clock header-clock">{now}</div>',
+                unsafe_allow_html=True,
+            )
+
+    st.markdown('<div class="app-header-rule"></div>', unsafe_allow_html=True)
 
 
 def render_step_indicator(current_step: int) -> None:

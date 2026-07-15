@@ -50,13 +50,22 @@
 }
 
 /* ── Header ── */
-.app-header {
+.app-header,
+.app-header-brand {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 0 1.25rem;
+    padding: 0.5rem 0 0.35rem;
+}
+
+.app-header-rule {
     border-bottom: 1px solid var(--border-subtle);
-    margin-bottom: 2rem;
+    margin: 0.35rem 0 2rem;
+}
+
+.header-clock {
+    text-align: right;
+    white-space: nowrap;
 }
 
 .brand-lockup {
