@@ -22,7 +22,7 @@ def get_service():
 
 
 def main() -> None:
-    render_header()
+    render_header(show_settings=False)
     st.markdown(
         '<p style="color:#c4a882;">Direct control of machine hardware (Manual Mode)</p>',
         unsafe_allow_html=True,

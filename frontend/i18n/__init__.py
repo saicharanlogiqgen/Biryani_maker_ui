@@ -1,4 +1,4 @@
-"""Internationalization helpers for Dumchef (English / Hindi)."""
+"""Internationalization helpers for Dumchef (English / Hindi / Telugu)."""
 
 from __future__ import annotations
 
@@ -13,11 +13,12 @@ I18N_DIR = Path(__file__).parent
 SUPPORTED_LANGUAGES = {
     "en": "English",
     "hi": "हिन्दी",
+    "te": "తెలుగు",
 }
 DEFAULT_LANGUAGE = "en"
 
 
-@lru_cache(maxsize=4)
+@lru_cache(maxsize=8)
 def _load_lang(lang: str) -> dict:
     path = I18N_DIR / f"{lang}.json"
     if not path.exists():
@@ -140,7 +141,7 @@ def localize_stages(stages: list[dict], family: str) -> list[dict]:
 
 
 def stage_family_for_recipe(recipe_id: str) -> str:
-    if recipe_id == "cook_rice":
+    if recipe_id in ("cook_rice", "millets"):
         return "rice"
     if recipe_id == "curry":
         return "curry"

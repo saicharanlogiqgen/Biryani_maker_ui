@@ -207,5 +207,21 @@
   "ing.curry_leaves": "Curry leaves",
   "ing.biryani_masala": "Biryani masala",
   "ing.saffron_milk": "Saffron milk",
-  "ing.fried_onions": "Fried onions"
+  "ing.fried_onions": "Fried onions",
+  "select_a_millet": "Select a millet",
+  "item.millets.title": "Millets",
+  "item.millets.desc": "Select a millet to cook",
+  "item.foxtail_millet.title": "Foxtail Millet (Korra)",
+  "item.foxtail_millet.desc": "Light, fluffy foxtail millet",
+  "item.little_millet.title": "Little Millet (Sama)",
+  "item.little_millet.desc": "Soft little millet (sama)",
+  "item.barnyard_millet.title": "Barnyard Millet (Oodalu)",
+  "item.barnyard_millet.desc": "Nutty barnyard millet (oodalu)",
+  "item.kodo_millet.title": "Kodo Millet (Arikelu)",
+  "item.kodo_millet.desc": "Wholesome kodo millet (arikelu)",
+  "ing.foxtail_millet_korra": "Foxtail millet (Korra)",
+  "ing.little_millet_sama": "Little millet (Sama)",
+  "ing.barnyard_millet_oodalu": "Barnyard millet (Oodalu)",
+  "ing.kodo_millet_arikelu": "Kodo millet (Arikelu)",
+  "lang_te": "Telugu"
 }

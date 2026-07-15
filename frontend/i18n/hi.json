@@ -207,5 +207,21 @@
   "ing.curry_leaves": "करी पत्ता",
   "ing.biryani_masala": "बिरयानी मसाला",
   "ing.saffron_milk": "केसर वाला दूध",
-  "ing.fried_onions": "तले हुए प्याज"
+  "ing.fried_onions": "तले हुए प्याज",
+  "select_a_millet": "मिलेट चुनें",
+  "item.millets.title": "मिलेट",
+  "item.millets.desc": "पकाने के लिए मिलेट चुनें",
+  "item.foxtail_millet.title": "फॉक्सटेल मिलेट (कोर्रा)",
+  "item.foxtail_millet.desc": "हल्की, फूली हुई कोर्रा",
+  "item.little_millet.title": "लिटिल मिलेट (सामा)",
+  "item.little_millet.desc": "मुलायम सामा मिलेट",
+  "item.barnyard_millet.title": "बार्नयार्ड मिलेट (ऊदालु)",
+  "item.barnyard_millet.desc": "सुगंधित ऊदालु मिलेट",
+  "item.kodo_millet.title": "कोडो मिलेट (अरिकेलु)",
+  "item.kodo_millet.desc": "पौष्टिक अरिकेलु मिलेट",
+  "ing.foxtail_millet_korra": "फॉक्सटेल मिलेट (कोर्रा)",
+  "ing.little_millet_sama": "लिटिल मिलेट (सामा)",
+  "ing.barnyard_millet_oodalu": "बार्नयार्ड मिलेट (ऊदालु)",
+  "ing.kodo_millet_arikelu": "कोडो मिलेट (अरिकेलु)",
+  "lang_te": "తెలుగు"
 }

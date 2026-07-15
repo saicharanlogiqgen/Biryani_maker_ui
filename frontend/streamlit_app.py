@@ -16,9 +16,11 @@ from frontend.data.recipes import (
     CURRY_CATEGORIES,
     RICE_CATEGORIES,
     BIRYANI_CATEGORIES,
+    MILLET_OPTIONS,
     get_selected_curry,
     get_selected_rice_item,
     get_selected_biryani,
+    get_selected_millet,
 )
 from frontend.components.recipe_card import render_recipe_card
 from frontend.components.progress_tracker import (
@@ -70,6 +72,7 @@ def init_session_state() -> None:
         "selected_rice_id": None,
         "selected_biryani_category": None,
         "selected_biryani_id": None,
+        "selected_millet_id": None,
         "cook_start_time": None,
         "total_cook_time": 0,
         "cooking_started": False,
@@ -146,6 +149,9 @@ def get_active_ingredients(recipe_id: str) -> list[dict]:
             st.session_state.get("selected_rice_id"),
         )
         return item["ingredients"] if item else []
+    if recipe_id == "millets":
+        millet = get_selected_millet(st.session_state.get("selected_millet_id"))
+        return millet["ingredients"] if millet else []
     return recipe["ingredients"]
 
 
@@ -198,6 +204,17 @@ def get_display_recipe() -> dict:
                 "batch_options": biryani.get("batch_options"),
                 "default_batch": biryani.get("default_batch"),
             }
+    elif recipe_id == "millets":
+        millet = get_selected_millet(st.session_state.get("selected_millet_id"))
+        if millet:
+            display = {
+                **recipe,
+                "id": millet["id"],
+                "title": millet["title"],
+                "emoji": millet["emoji"],
+                "description": millet["description"],
+                "ingredients": millet["ingredients"],
+            }
     localized = localize_card(display)
     family = stage_family_for_recipe(recipe_id)
     localized["stages"] = localize_stages(display.get("stages", recipe.get("stages", [])), family)
@@ -216,6 +233,7 @@ def reset_workflow() -> None:
     st.session_state.selected_rice_id = None
     st.session_state.selected_biryani_category = None
     st.session_state.selected_biryani_id = None
+    st.session_state.selected_millet_id = None
     clear_ingredient_keys()
     st.session_state.cook_start_time = None
     st.session_state.total_cook_time = 0
@@ -263,6 +281,7 @@ def start_recipe(recipe_id: str) -> None:
     st.session_state.selected_rice_id = None
     st.session_state.selected_biryani_category = None
     st.session_state.selected_biryani_id = None
+    st.session_state.selected_millet_id = None
     st.session_state.cook_start_time = None
 
     if recipe_id == "chicken_biryani":
@@ -271,6 +290,8 @@ def start_recipe(recipe_id: str) -> None:
         st.session_state.workflow_step = "curry_category"
     elif recipe_id == "cook_rice":
         st.session_state.workflow_step = "rice_category"
+    elif recipe_id == "millets":
+        st.session_state.workflow_step = "millet_list"
     else:
         init_ingredient_keys(recipe_id)
         st.session_state.workflow_step = "ingredients"
@@ -295,15 +316,6 @@ def render_dashboard() -> None:
                 "description": "Direct device control with manual inputs",
             }
         ),
-        localize_card(
-            {
-                "id": "settings",
-                "title": "Settings",
-                "emoji": "⚙️",
-                "icon_color": "#ffb300",
-                "description": "Language and app preferences",
-            }
-        ),
     ]
     cols = st.columns(len(recipe_list))
 
@@ -318,8 +330,6 @@ def render_dashboard() -> None:
             ):
                 if recipe["id"] == "manual_mode":
                     st.session_state.workflow_step = "manual"
-                elif recipe["id"] == "settings":
-                    st.session_state.workflow_step = "settings"
                 else:
                     start_recipe(recipe["id"])
                 st.rerun()
@@ -353,8 +363,11 @@ def render_settings_step() -> None:
         st.success(t("settings_saved"))
         st.rerun()
 
-    if st.button(t("btn_back_home"), key="settings_back", use_container_width=True):
-        reset_workflow()
+    if st.button(t("btn_back"), key="settings_back", use_container_width=True):
+        return_step = st.session_state.pop("settings_return_step", "dashboard")
+        if return_step == "settings":
+            return_step = "dashboard"
+        st.session_state.workflow_step = return_step
         st.rerun()
 
 
@@ -493,6 +506,37 @@ def render_rice_list_step() -> None:
     if st.button(t("btn_back"), key="rice_list_back", use_container_width=True):
         st.session_state.selected_rice_id = None
         st.session_state.workflow_step = "rice_category"
+        st.rerun()
+
+
+# ── Millets list ──
+def render_millet_list_step() -> None:
+    render_header()
+    st.markdown(
+        f'<p style="color: #c4a882; font-size: 0.95rem; margin-bottom: 1.5rem;">'
+        f"{t('select_a_millet')}</p>",
+        unsafe_allow_html=True,
+    )
+
+    items = list(MILLET_OPTIONS.values())
+    cols = st.columns(min(4, len(items)))
+    for index, item in enumerate(items):
+        with cols[index % len(cols)]:
+            render_recipe_card(localize_card(item))
+            if st.button(
+                t("btn_start"),
+                key=f"millet_item_{item['id']}",
+                type="primary",
+                use_container_width=True,
+            ):
+                st.session_state.selected_millet_id = item["id"]
+                clear_ingredient_keys()
+                init_ingredient_keys("millets")
+                st.session_state.workflow_step = "ingredients"
+                st.rerun()
+
+    if st.button(t("btn_back_home"), key="millet_list_back", use_container_width=True):
+        reset_workflow()
         st.rerun()
 
 
@@ -655,6 +699,10 @@ def render_ingredients_step() -> None:
                 st.session_state.selected_biryani_id = None
                 st.session_state.selected_batch = None
                 st.session_state.workflow_step = "biryani_list"
+            elif recipe_id == "millets":
+                clear_ingredient_keys()
+                st.session_state.selected_millet_id = None
+                st.session_state.workflow_step = "millet_list"
             else:
                 reset_workflow()
             st.rerun()
@@ -897,6 +945,11 @@ def render_completion_step() -> None:
                 init_ingredient_keys("chicken_biryani")
                 st.session_state.workflow_step = "ingredients"
                 st.session_state.cooking_started = False
+            elif recipe_id == "millets" and st.session_state.get("selected_millet_id"):
+                clear_ingredient_keys()
+                init_ingredient_keys("millets")
+                st.session_state.workflow_step = "ingredients"
+                st.session_state.cooking_started = False
             else:
                 start_recipe(recipe_id)
             st.rerun()
@@ -951,6 +1004,8 @@ def main() -> None:
         render_rice_category_step()
     elif step == "rice_list":
         render_rice_list_step()
+    elif step == "millet_list":
+        render_millet_list_step()
     elif step == "biryani_category":
         render_biryani_category_step()
     elif step == "biryani_list":

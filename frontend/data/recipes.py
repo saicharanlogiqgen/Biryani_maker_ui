@@ -576,6 +576,61 @@ BIRYANI_CATEGORIES = {
     },
 }
 
+MILLET_OPTIONS = {
+    "foxtail_millet": {
+        "id": "foxtail_millet",
+        "title": "Foxtail Millet (Korra)",
+        "emoji": "🌾",
+        "icon_color": "#d4a017",
+        "description": "Light, fluffy foxtail millet",
+        "ingredients": [
+            {"name": "Foxtail millet (Korra)", "quantity": "2 cups"},
+            {"name": "Water", "quantity": "4 cups"},
+            {"name": "Salt", "quantity": "1 tsp"},
+            {"name": "Ghee", "quantity": "1 tbsp"},
+        ],
+    },
+    "little_millet": {
+        "id": "little_millet",
+        "title": "Little Millet (Sama)",
+        "emoji": "🌱",
+        "icon_color": "#c4920a",
+        "description": "Soft little millet (sama)",
+        "ingredients": [
+            {"name": "Little millet (Sama)", "quantity": "2 cups"},
+            {"name": "Water", "quantity": "4 cups"},
+            {"name": "Salt", "quantity": "1 tsp"},
+            {"name": "Ghee", "quantity": "1 tbsp"},
+        ],
+    },
+    "barnyard_millet": {
+        "id": "barnyard_millet",
+        "title": "Barnyard Millet (Oodalu)",
+        "emoji": "🌿",
+        "icon_color": "#b8860b",
+        "description": "Nutty barnyard millet (oodalu)",
+        "ingredients": [
+            {"name": "Barnyard millet (Oodalu)", "quantity": "2 cups"},
+            {"name": "Water", "quantity": "4 cups"},
+            {"name": "Salt", "quantity": "1 tsp"},
+            {"name": "Ghee", "quantity": "1 tbsp"},
+        ],
+    },
+    "kodo_millet": {
+        "id": "kodo_millet",
+        "title": "Kodo Millet (Arikelu)",
+        "emoji": "✨",
+        "icon_color": "#a67c00",
+        "description": "Wholesome kodo millet (arikelu)",
+        "ingredients": [
+            {"name": "Kodo millet (Arikelu)", "quantity": "2 cups"},
+            {"name": "Water", "quantity": "4 cups"},
+            {"name": "Salt", "quantity": "1 tsp"},
+            {"name": "Ghee", "quantity": "1 tbsp"},
+        ],
+    },
+}
+
 RECIPES = {
     "cook_rice": {
         "id": "cook_rice",
@@ -614,6 +669,18 @@ RECIPES = {
         "ingredients": [],
         "stages": BIRYANI_STAGES,
     },
+    "millets": {
+        "id": "millets",
+        "title": "Millets",
+        "emoji": "🌾",
+        "icon_color": "#d4a017",
+        "description": "Select a millet to cook",
+        "machine_enabled": False,
+        "has_sub_menu": True,
+        "total_cook_seconds": 20,
+        "ingredients": [],
+        "stages": RICE_STAGES,
+    },
 }
 
 
@@ -642,3 +709,9 @@ def get_selected_biryani(category_id: str | None, biryani_id: str | None) -> dic
     if not category:
         return None
     return category["items"].get(biryani_id)
+
+
+def get_selected_millet(millet_id: str | None) -> dict | None:
+    if not millet_id:
+        return None
+    return MILLET_OPTIONS.get(millet_id)
